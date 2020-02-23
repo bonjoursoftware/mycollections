@@ -1,0 +1,5 @@
+profile: service
+defaultPackage: com.bonjoursoftware
+---
+testFramework: spock
+sourceLanguage: groovy
