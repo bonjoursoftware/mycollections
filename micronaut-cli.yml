@@ -1,5 +1,5 @@
 profile: service
-defaultPackage: com.bonjoursoftware
+defaultPackage: com.bonjoursoftware.mycollections
 ---
 testFramework: spock
 sourceLanguage: groovy
