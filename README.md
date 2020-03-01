@@ -4,7 +4,7 @@
 
 Bonjour Software's MyCollections is a web application that helps keep track of collections of any kind.
 
-This project serves as a showcase that demonstrates the entire software development lifecycle of a microservice that runs in the cloud.
+This project serves as a showcase that demonstrates the development of a microservice that runs in the cloud.
 
 ## Technology stack
 

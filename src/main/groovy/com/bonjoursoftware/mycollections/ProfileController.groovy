@@ -24,11 +24,26 @@
 package com.bonjoursoftware.mycollections
 
 import groovy.transform.CompileStatic
-import io.micronaut.runtime.Micronaut
+import io.micronaut.http.MediaType
+import io.micronaut.http.annotation.Controller
+import io.micronaut.http.annotation.Get
+import io.micronaut.http.annotation.Produces
+import io.micronaut.security.annotation.Secured
+import io.micronaut.security.authentication.Authentication
+import io.micronaut.security.rules.SecurityRule
 
 @CompileStatic
-class Application {
-    static void main(String[] args) {
-        Micronaut.run(Application)
+@Secured(SecurityRule.IS_AUTHENTICATED)
+@Controller('/profile')
+class ProfileController {
+
+    @Produces(MediaType.TEXT_PLAIN)
+    @Get
+    String profile(Authentication authentication) {
+        new StringBuilder().append("Name: ${authentication.getName()}${System.lineSeparator()}").tap { str ->
+            authentication.getAttributes().each { attr ->
+                str.append("${attr.getKey()}: ${attr.getValue()}${System.lineSeparator()}")
+            }
+        }
     }
 }

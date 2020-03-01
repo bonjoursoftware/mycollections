@@ -24,11 +24,20 @@
 package com.bonjoursoftware.mycollections
 
 import groovy.transform.CompileStatic
-import io.micronaut.runtime.Micronaut
+import io.micronaut.http.annotation.Controller
+import io.micronaut.http.annotation.Get
+import io.micronaut.security.annotation.Secured
+import io.micronaut.security.rules.SecurityRule
+import io.micronaut.views.View
 
 @CompileStatic
-class Application {
-    static void main(String[] args) {
-        Micronaut.run(Application)
+@Controller
+class HomeController {
+
+    @Secured(SecurityRule.IS_ANONYMOUS)
+    @View('home')
+    @Get
+    Map<String, Object> index() {
+        new HashMap<>()
     }
 }

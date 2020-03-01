@@ -1,3 +1,26 @@
 micronaut:
   application:
-    name: mycollections
+    name: bjrsft-labs-mycollections
+  security:
+    enabled: true
+    oauth2:
+      enabled: true
+      clients:
+        google:
+          client-id: '${OAUTH_CLIENT_ID}'
+          client-secret: '${OAUTH_CLIENT_SECRET}'
+          openid:
+            issuer: 'https://accounts.google.com'
+    token:
+      jwt:
+        enabled: true
+        cookie:
+          enabled: true
+        signatures:
+          secret:
+            generator:
+              secret: '${JWT_SIGNATURES_SECRET}'
+    endpoints:
+      logout:
+        enabled: true
+        get-allowed: true
