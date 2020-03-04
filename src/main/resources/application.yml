@@ -24,3 +24,8 @@ micronaut:
       logout:
         enabled: true
         get-allowed: true
+datasources:
+  default:
+    url: jdbc:postgresql:postgres
+    username: '${POSTGRES_USER}'
+    password: '${POSTGRES_PASSWORD}'
