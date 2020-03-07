@@ -25,18 +25,12 @@ package com.bonjoursoftware.mycollections.item
 
 import groovy.transform.EqualsAndHashCode
 import groovy.transform.TupleConstructor
+import io.micronaut.core.annotation.Introspected
 
-import javax.persistence.Entity
-import javax.persistence.GeneratedValue
-import javax.persistence.Id
-
-@Entity
-@TupleConstructor(excludes = 'id')
+@Introspected
+@TupleConstructor
 @EqualsAndHashCode
-class Item {
-    @Id
-    @GeneratedValue
+class ItemDTO {
     Long id
-    String collector
     String name
 }

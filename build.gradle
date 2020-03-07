@@ -43,6 +43,7 @@ dependencies {
     testImplementation 'io.micronaut:micronaut-inject-groovy'
     testImplementation 'io.micronaut.test:micronaut-test-spock'
     testImplementation 'io.micronaut.test:micronaut-test-junit5'
+    testImplementation 'net.bytebuddy:byte-buddy:1.10.8'
 }
 
 test.classpath += configurations.developmentOnly

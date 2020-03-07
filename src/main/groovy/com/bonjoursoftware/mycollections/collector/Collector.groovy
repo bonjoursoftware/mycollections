@@ -21,22 +21,16 @@
  * along with this program. If not, see
  * https://github.com/bonjoursoftware/mycollections/blob/master/LICENSE
  */
-package com.bonjoursoftware.mycollections.item
+package com.bonjoursoftware.mycollections.collector
 
-import groovy.transform.EqualsAndHashCode
-import groovy.transform.TupleConstructor
+import io.micronaut.security.authentication.Authentication
 
-import javax.persistence.Entity
-import javax.persistence.GeneratedValue
-import javax.persistence.Id
+class Collector {
 
-@Entity
-@TupleConstructor(excludes = 'id')
-@EqualsAndHashCode
-class Item {
-    @Id
-    @GeneratedValue
-    Long id
-    String collector
-    String name
+    private static final EMAIL_KEY = 'email'
+    private static final ANONYMOUS = 'anonymous'
+
+    static String getCollector(Authentication authentication) {
+        authentication?.getAttributes()?.get(EMAIL_KEY) ?: ANONYMOUS
+    }
 }
