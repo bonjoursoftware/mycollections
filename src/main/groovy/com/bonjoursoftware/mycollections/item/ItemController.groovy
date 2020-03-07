@@ -25,6 +25,7 @@ package com.bonjoursoftware.mycollections.item
 
 import groovy.transform.CompileStatic
 import io.micronaut.http.annotation.Controller
+import io.micronaut.http.annotation.Delete
 import io.micronaut.http.annotation.Get
 import io.micronaut.http.annotation.Post
 import io.micronaut.http.annotation.Put
@@ -57,5 +58,10 @@ class ItemController {
     @Put
     void update(ItemDTO item, Authentication authentication) {
         itemService.update(item, getCollector(authentication))
+    }
+
+    @Delete
+    void delete(ItemDTO item, Authentication authentication) {
+        itemService.delete(item, getCollector(authentication))
     }
 }

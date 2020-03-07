@@ -66,4 +66,12 @@ class ItemControllerTest extends Specification {
         then:
         1 * itemService.update(AN_ITEM, A_COLLECTOR)
     }
+
+    def 'Delete item delegates to item service'() {
+        when:
+        itemController.delete(AN_ITEM, authentication)
+
+        then:
+        1 * itemService.delete(AN_ITEM, A_COLLECTOR)
+    }
 }
