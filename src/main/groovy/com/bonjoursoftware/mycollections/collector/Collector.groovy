@@ -28,9 +28,12 @@ import io.micronaut.security.authentication.Authentication
 class Collector {
 
     private static final EMAIL_KEY = 'email'
-    private static final ANONYMOUS = 'anonymous'
 
     static String getCollector(Authentication authentication) {
-        authentication?.getAttributes()?.get(EMAIL_KEY) ?: ANONYMOUS
+        Optional.ofNullable(authentication?.getAttributes()?.get(EMAIL_KEY))
+                .orElseThrow({ new UnknownCollectorException() })
+    }
+
+    static class UnknownCollectorException extends RuntimeException {
     }
 }

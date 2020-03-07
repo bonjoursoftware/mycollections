@@ -28,22 +28,27 @@ import spock.lang.Specification
 
 class CollectorTest extends Specification {
 
-    private static final String ANONYMOUS = 'anonymous'
     private static final String COLLECTOR_EMAIL = 'collector@dummy-domain.com'
 
-    def 'Returns anonymous when no collector is authenticated'() {
-        expect:
-        Collector.getCollector(null) == ANONYMOUS
+    def 'Throws an exception when no collector is authenticated'() {
+        when:
+        Collector.getCollector(null)
+
+        then:
+        thrown(Collector.UnknownCollectorException)
     }
 
-    def 'Returns anonymous when collector email is not known'() {
+    def 'Throws an exception when collector email is not known'() {
         given:
         def authentication = Mock(Authentication) {
             getAttributes() >> [:]
         }
 
-        expect:
-        Collector.getCollector(authentication) == ANONYMOUS
+        when:
+        Collector.getCollector(authentication)
+
+        then:
+        thrown(Collector.UnknownCollectorException)
     }
 
     def 'Returns collector email when collector is authenticated and their email is known'() {
