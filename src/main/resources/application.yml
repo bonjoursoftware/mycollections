@@ -24,6 +24,10 @@ micronaut:
       logout:
         enabled: true
         get-allowed: true
+jpa:
+  default:
+    entity-scan:
+      packages: 'com.bonjoursoftware.mycollections'
 datasources:
   default:
     url: jdbc:postgresql:postgres

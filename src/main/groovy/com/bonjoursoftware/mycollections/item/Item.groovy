@@ -28,14 +28,17 @@ import groovy.transform.TupleConstructor
 
 import javax.persistence.Entity
 import javax.persistence.GeneratedValue
+import javax.persistence.GenerationType
 import javax.persistence.Id
+import javax.persistence.SequenceGenerator
 
 @Entity
 @TupleConstructor(excludes = 'id')
 @EqualsAndHashCode
 class Item {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = 'item_id_seq')
+    @SequenceGenerator(name = 'item_id_seq', allocationSize = 1)
     Long id
     String collector
     String name
