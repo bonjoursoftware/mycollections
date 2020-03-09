@@ -36,27 +36,27 @@ class ItemService {
     @Inject
     private ItemRepository itemRepository
 
-    List<ItemDTO> findByCollector(String collector) {
+    List<Item> findByCollector(String collector) {
         itemRepository.findByCollector(collector)
     }
 
-    void create(ItemDTO item, String collector) {
-        itemRepository.save(new Item(name: item.name, collector: collector))
+    void create(Item item, String collector) {
+        itemRepository.save(item.tap { it.collector = collector })
     }
 
-    void update(ItemDTO item, String collector) {
+    void update(Item item, String collector) {
         verifyOwnershipAndDo(item, collector) {
-            itemRepository.update(new Item(id: item.id, name: item.name, collector: collector))
+            itemRepository.update(item.tap { it.collector = collector })
         }
     }
 
-    void delete(ItemDTO item, String collector) {
+    void delete(Item item, String collector) {
         verifyOwnershipAndDo(item, collector) {
             itemRepository.deleteById(item.id)
         }
     }
 
-    private void verifyOwnershipAndDo(ItemDTO item, String collector, Closure action) {
+    private void verifyOwnershipAndDo(Item item, String collector, Closure action) {
         if (itemRepository.existsByIdAndCollector(item.id, collector)) {
             action()
         } else {

@@ -28,6 +28,9 @@ jpa:
   default:
     entity-scan:
       packages: 'com.bonjoursoftware.mycollections'
+    properties:
+      hibernate:
+        show_sql: true
 datasources:
   default:
     url: jdbc:postgresql:postgres

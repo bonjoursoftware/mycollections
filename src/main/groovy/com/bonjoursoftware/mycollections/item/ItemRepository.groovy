@@ -30,5 +30,5 @@ import io.micronaut.data.repository.CrudRepository
 interface ItemRepository extends CrudRepository<Item, Long> {
     Boolean existsByIdAndCollector(Long id, String collector)
 
-    List<ItemDTO> findByCollector(String collector)
+    List<Item> findByCollector(String collector)
 }

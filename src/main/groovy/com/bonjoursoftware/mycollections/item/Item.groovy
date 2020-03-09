@@ -23,23 +23,34 @@
  */
 package com.bonjoursoftware.mycollections.item
 
+import com.bonjoursoftware.mycollections.tag.Tag
 import groovy.transform.EqualsAndHashCode
-import groovy.transform.TupleConstructor
 
+import javax.persistence.CascadeType
 import javax.persistence.Entity
+import javax.persistence.FetchType
 import javax.persistence.GeneratedValue
 import javax.persistence.GenerationType
 import javax.persistence.Id
+import javax.persistence.JoinColumn
+import javax.persistence.JoinTable
+import javax.persistence.ManyToMany
 import javax.persistence.SequenceGenerator
 
 @Entity
-@TupleConstructor(excludes = 'id')
-@EqualsAndHashCode
+@EqualsAndHashCode(includes = 'id')
 class Item {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = 'item_id_seq')
     @SequenceGenerator(name = 'item_id_seq', allocationSize = 1)
     Long id
+
     String collector
+
     String name
+
+    @ManyToMany(cascade = [CascadeType.PERSIST, CascadeType.MERGE], fetch = FetchType.EAGER)
+    @JoinTable(name = 'item_tag', joinColumns = @JoinColumn(name = 'item_id'),
+            inverseJoinColumns = @JoinColumn(name = 'tag_id'))
+    Set<Tag> tags
 }

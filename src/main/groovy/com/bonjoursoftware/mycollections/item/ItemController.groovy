@@ -46,22 +46,22 @@ class ItemController {
     private ItemService itemService
 
     @Get
-    List<ItemDTO> findByCollector(Authentication authentication) {
+    List<Item> findByCollector(Authentication authentication) {
         itemService.findByCollector(getCollector(authentication))
     }
 
     @Post
-    void create(ItemDTO item, Authentication authentication) {
+    void create(Item item, Authentication authentication) {
         itemService.create(item, getCollector(authentication))
     }
 
     @Put
-    void update(ItemDTO item, Authentication authentication) {
+    void update(Item item, Authentication authentication) {
         itemService.update(item, getCollector(authentication))
     }
 
     @Delete
-    void delete(ItemDTO item, Authentication authentication) {
+    void delete(Item item, Authentication authentication) {
         itemService.delete(item, getCollector(authentication))
     }
 }

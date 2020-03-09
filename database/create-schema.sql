@@ -8,7 +8,6 @@ CREATE TABLE item
 CREATE TABLE tag
 (
     id        SERIAL PRIMARY KEY,
-    collector TEXT NOT NULL,
     name      TEXT NOT NULL
 );
 

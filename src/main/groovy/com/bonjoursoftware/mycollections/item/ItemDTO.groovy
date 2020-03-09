@@ -23,13 +23,6 @@
  */
 package com.bonjoursoftware.mycollections.item
 
-import groovy.transform.EqualsAndHashCode
-import groovy.transform.TupleConstructor
-import io.micronaut.core.annotation.Introspected
-
-@Introspected
-@TupleConstructor
-@EqualsAndHashCode
 class ItemDTO {
     Long id
     String name
