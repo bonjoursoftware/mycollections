@@ -29,7 +29,7 @@ import spock.lang.Specification
 class ItemControllerTest extends Specification {
 
     private static final String A_COLLECTOR = 'collector@dummy-domain.com'
-    private static final ItemDTO AN_ITEM = new ItemDTO(name: 'an item')
+    private static final Item AN_ITEM = new Item(name: 'an item')
 
     private Authentication authentication
     private ItemController itemController

@@ -34,7 +34,7 @@ import io.micronaut.security.rules.SecurityRule
 
 @CompileStatic
 @Secured(SecurityRule.IS_AUTHENTICATED)
-@Controller('/profile')
+@Controller('/api/v1/profile')
 class ProfileController {
 
     @Produces(MediaType.TEXT_PLAIN)

@@ -25,32 +25,20 @@ package com.bonjoursoftware.mycollections.item
 
 import com.bonjoursoftware.mycollections.tag.Tag
 import groovy.transform.EqualsAndHashCode
+import io.micronaut.data.annotation.GeneratedValue
+import io.micronaut.data.annotation.Id
+import io.micronaut.data.annotation.MappedEntity
 
-import javax.persistence.CascadeType
-import javax.persistence.Entity
-import javax.persistence.FetchType
-import javax.persistence.GeneratedValue
-import javax.persistence.GenerationType
-import javax.persistence.Id
-import javax.persistence.JoinColumn
-import javax.persistence.JoinTable
-import javax.persistence.ManyToMany
-import javax.persistence.SequenceGenerator
-
-@Entity
+@MappedEntity
 @EqualsAndHashCode(includes = 'id')
 class Item {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = 'item_id_seq')
-    @SequenceGenerator(name = 'item_id_seq', allocationSize = 1)
+    @GeneratedValue
     Long id
 
     String collector
 
     String name
 
-    @ManyToMany(cascade = [CascadeType.PERSIST, CascadeType.MERGE], fetch = FetchType.EAGER)
-    @JoinTable(name = 'item_tag', joinColumns = @JoinColumn(name = 'item_id'),
-            inverseJoinColumns = @JoinColumn(name = 'tag_id'))
     Set<Tag> tags
 }

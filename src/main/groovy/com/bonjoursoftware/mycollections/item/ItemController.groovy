@@ -39,7 +39,7 @@ import static com.bonjoursoftware.mycollections.collector.Collector.getCollector
 
 @CompileStatic
 @Secured(SecurityRule.IS_AUTHENTICATED)
-@Controller('/item')
+@Controller('/api/v1/item')
 class ItemController {
 
     @Inject

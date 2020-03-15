@@ -28,8 +28,6 @@ import spock.lang.Unroll
 
 class ItemServiceTest extends Specification {
 
-    private static final String A_COLLECTOR = 'collector@dummy-domain.com'
-
     private ItemRepository itemRepository
     private ItemService itemService
 
@@ -53,7 +51,7 @@ class ItemServiceTest extends Specification {
     @Unroll
     def 'Create item [#name] for collector [#collector] delegates to repository for item [#name] and collector [#collector]'() {
         given:
-        def item = new ItemDTO(name: name)
+        def item = new Item(name: name)
 
         when:
         itemService.create(item, collector)
@@ -72,7 +70,7 @@ class ItemServiceTest extends Specification {
     @Unroll
     def 'Update item with id [#id] for collector [#collector] delegates to repository when collector [#collector] owns an item with id [#id]'() {
         given:
-        def item = new ItemDTO(id: id, name: name)
+        def item = new Item(id: id, name: name)
 
         when:
         itemService.update(item, collector)
@@ -90,7 +88,7 @@ class ItemServiceTest extends Specification {
     @Unroll
     def 'Update item with id [#id] for collector [#collector] throws an exception when collector [#collector] does not own an item with id [#id]'() {
         given:
-        def item = new ItemDTO(id: id, name: name)
+        def item = new Item(id: id, name: name)
 
         when:
         itemService.update(item, collector)
@@ -111,7 +109,7 @@ class ItemServiceTest extends Specification {
     @Unroll
     def 'Delete item with id [#id] for collector [#collector] delegates to repository when collector [#collector] owns an item with id [#id]'() {
         given:
-        def item = new ItemDTO(id: id, name: name)
+        def item = new Item(id: id, name: name)
 
         when:
         itemService.delete(item, collector)
@@ -129,7 +127,7 @@ class ItemServiceTest extends Specification {
     @Unroll
     def 'Delete item with id [#id] for collector [#collector] throws an exception when collector [#collector] does not own an item with id [#id]'() {
         given:
-        def item = new ItemDTO(id: id, name: name)
+        def item = new Item(id: id, name: name)
 
         when:
         itemService.delete(item, collector)

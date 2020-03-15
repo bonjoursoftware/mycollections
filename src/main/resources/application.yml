@@ -1,8 +1,18 @@
 micronaut:
   application:
     name: bjrsft-labs-mycollections
+  router:
+    static-resources:
+      main:
+        paths: classpath:static
+        mapping: /**
   security:
     enabled: true
+    intercept-url-map:
+      - pattern: /**
+        httpMethod: GET
+        access:
+          - isAnonymous()
     oauth2:
       enabled: true
       clients:
@@ -24,13 +34,6 @@ micronaut:
       logout:
         enabled: true
         get-allowed: true
-jpa:
-  default:
-    entity-scan:
-      packages: 'com.bonjoursoftware.mycollections'
-    properties:
-      hibernate:
-        show_sql: true
 datasources:
   default:
     url: jdbc:postgresql:postgres
