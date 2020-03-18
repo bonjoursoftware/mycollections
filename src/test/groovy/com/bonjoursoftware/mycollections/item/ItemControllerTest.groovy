@@ -60,20 +60,12 @@ class ItemControllerTest extends Specification {
         1 * itemRepository.findByTagAndCollector(A_TAG, A_COLLECTOR)
     }
 
-    def 'Create item delegates to item repository'() {
+    def 'Upsert item delegates to item repository'() {
         when:
-        itemController.create(AN_ITEM, authentication)
+        itemController.upsert(AN_ITEM, authentication)
 
         then:
-        1 * itemRepository.create(AN_ITEM, A_COLLECTOR)
-    }
-
-    def 'Update item delegates to item repository'() {
-        when:
-        itemController.update(AN_ITEM, authentication)
-
-        then:
-        1 * itemRepository.update(AN_ITEM, A_COLLECTOR)
+        1 * itemRepository.upsert(AN_ITEM, A_COLLECTOR)
     }
 
     def 'Delete item delegates to item service'() {

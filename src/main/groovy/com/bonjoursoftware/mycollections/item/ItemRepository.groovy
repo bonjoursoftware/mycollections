@@ -47,16 +47,20 @@ class ItemRepository implements MongoRepository {
         collection(collector).find(eq(TAGS_FIELD, tag)).asList()
     }
 
-    void create(Item item, String collector) {
-        collection(collector).insertOne(item.tap { creation = Instant.now() })
-    }
-
-    void update(Item item, String collector) {
-        collection(collector).replaceOne(byId(item), item)
+    void upsert(Item item, String collector) {
+        item.id ? replace(item, collector) : create(item, collector)
     }
 
     void delete(Item item, String collector) {
         collection(collector).deleteOne(byId(item))
+    }
+
+    private void create(Item item, String collector) {
+        collection(collector).insertOne(item.tap { creation = Instant.now() })
+    }
+
+    private void replace(Item item, String collector) {
+        collection(collector).replaceOne(byId(item), item)
     }
 
     private Bson byId(Item item) {

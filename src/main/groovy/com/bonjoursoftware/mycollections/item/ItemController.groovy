@@ -28,7 +28,6 @@ import io.micronaut.http.annotation.Controller
 import io.micronaut.http.annotation.Delete
 import io.micronaut.http.annotation.Get
 import io.micronaut.http.annotation.Post
-import io.micronaut.http.annotation.Put
 import io.micronaut.http.annotation.QueryValue
 import io.micronaut.security.annotation.Secured
 import io.micronaut.security.authentication.Authentication
@@ -57,13 +56,8 @@ class ItemController {
     }
 
     @Post
-    void create(Item item, Authentication authentication) {
-        itemRepository.create(item, getCollector(authentication))
-    }
-
-    @Put
-    void update(Item item, Authentication authentication) {
-        itemRepository.update(item, getCollector(authentication))
+    void upsert(Item item, Authentication authentication) {
+        itemRepository.upsert(item, getCollector(authentication))
     }
 
     @Delete
