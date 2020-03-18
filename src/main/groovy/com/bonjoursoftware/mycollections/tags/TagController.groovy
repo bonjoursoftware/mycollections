@@ -20,7 +20,7 @@ class TagController {
     private TagRepository tagRepository
 
     @Get
-    List<String> findByCollector(Authentication authentication) {
+    List<Tag> findByCollector(Authentication authentication) {
         tagRepository.findByCollector(getCollector(authentication))
     }
 }

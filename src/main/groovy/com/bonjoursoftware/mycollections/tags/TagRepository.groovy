@@ -33,8 +33,8 @@ import javax.inject.Singleton
 @Singleton
 class TagRepository implements MongoRepository {
 
-    List<String> findByCollector(String collector) {
-        collection(collector).distinct(TAGS_FIELD, String).asList()
+    List<Tag> findByCollector(String collector) {
+        collection(collector).distinct(TAGS_FIELD, String).asList().collect { new Tag(name: it) }
     }
 
     private MongoCollection collection(String collector) {
