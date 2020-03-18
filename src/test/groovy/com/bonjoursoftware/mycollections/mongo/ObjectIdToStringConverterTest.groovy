@@ -21,25 +21,22 @@
  * along with this program. If not, see
  * https://github.com/bonjoursoftware/mycollections/blob/master/LICENSE
  */
-package com.bonjoursoftware.mycollections.item
+package com.bonjoursoftware.mycollections.mongo
 
-import com.bonjoursoftware.mycollections.mongo.ObjectIdToStringConverter
-import com.bonjoursoftware.mycollections.mongo.StringToObjectIdConverter
-import com.fasterxml.jackson.annotation.JsonIgnore
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize
-import com.fasterxml.jackson.databind.annotation.JsonSerialize
-import groovy.transform.EqualsAndHashCode
 import org.bson.types.ObjectId
+import spock.lang.Specification
 
-import java.time.Instant
+class ObjectIdToStringConverterTest extends Specification {
 
-@EqualsAndHashCode
-class Item {
-    @JsonSerialize(converter = ObjectIdToStringConverter)
-    @JsonDeserialize(converter = StringToObjectIdConverter)
-    ObjectId id
-    String name
-    List<String> tags
-    @JsonIgnore
-    Instant creation
+    def 'Converts a MongoDB ObjectId to a hex string'() {
+        given:
+        def objectId = new ObjectId()
+
+        and:
+        def expectedHexString = objectId.toHexString()
+
+        expect:
+        println expectedHexString
+        expectedHexString == new ObjectIdToStringConverter().convert(objectId)
+    }
 }

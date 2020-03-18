@@ -29,6 +29,7 @@ import io.micronaut.http.annotation.Delete
 import io.micronaut.http.annotation.Get
 import io.micronaut.http.annotation.Post
 import io.micronaut.http.annotation.Put
+import io.micronaut.http.annotation.QueryValue
 import io.micronaut.security.annotation.Secured
 import io.micronaut.security.authentication.Authentication
 import io.micronaut.security.rules.SecurityRule
@@ -43,25 +44,30 @@ import static com.bonjoursoftware.mycollections.collector.Collector.getCollector
 class ItemController {
 
     @Inject
-    private ItemService itemService
+    private ItemRepository itemRepository
 
     @Get
     List<Item> findByCollector(Authentication authentication) {
-        itemService.findByCollector(getCollector(authentication))
+        itemRepository.findByCollector(getCollector(authentication))
+    }
+
+    @Get('/{tag}')
+    List<Item> findByTagAndCollector(@QueryValue('tag') String tag, Authentication authentication) {
+        itemRepository.findByTagAndCollector(tag, getCollector(authentication))
     }
 
     @Post
     void create(Item item, Authentication authentication) {
-        itemService.create(item, getCollector(authentication))
+        itemRepository.create(item, getCollector(authentication))
     }
 
     @Put
     void update(Item item, Authentication authentication) {
-        itemService.update(item, getCollector(authentication))
+        itemRepository.update(item, getCollector(authentication))
     }
 
     @Delete
     void delete(Item item, Authentication authentication) {
-        itemService.delete(item, getCollector(authentication))
+        itemRepository.delete(item, getCollector(authentication))
     }
 }

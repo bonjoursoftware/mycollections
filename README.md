@@ -13,4 +13,5 @@ This project serves as a showcase that demonstrates the development of a microse
 - Micronaut framework
 - Gradle build
 - Docker and docker-compose
+- MongoDB
 - and more as the project develops...

@@ -28,19 +28,20 @@ import spock.lang.Specification
 
 class ItemControllerTest extends Specification {
 
-    private static final String A_COLLECTOR = 'collector@dummy-domain.com'
+    private static final String A_COLLECTOR = 'collector'
+    private static final String A_TAG = 'tag'
     private static final Item AN_ITEM = new Item(name: 'an item')
 
     private Authentication authentication
     private ItemController itemController
-    private ItemService itemService
+    private ItemRepository itemRepository
 
     void setup() {
         authentication = Mock(Authentication) {
             getAttributes() >> [email: A_COLLECTOR]
         }
-        itemService = Mock()
-        itemController = new ItemController(itemService: itemService)
+        itemRepository = Mock()
+        itemController = new ItemController(itemRepository: itemRepository)
     }
 
     def 'Find by collector delegates to item service'() {
@@ -48,23 +49,31 @@ class ItemControllerTest extends Specification {
         itemController.findByCollector(authentication)
 
         then:
-        1 * itemService.findByCollector(A_COLLECTOR)
+        1 * itemRepository.findByCollector(A_COLLECTOR)
     }
 
-    def 'Create item delegates to item service'() {
+    def 'Find by tag and collector delegates to item service'() {
+        when:
+        itemController.findByTagAndCollector(A_TAG, authentication)
+
+        then:
+        1 * itemRepository.findByTagAndCollector(A_TAG, A_COLLECTOR)
+    }
+
+    def 'Create item delegates to item repository'() {
         when:
         itemController.create(AN_ITEM, authentication)
 
         then:
-        1 * itemService.create(AN_ITEM, A_COLLECTOR)
+        1 * itemRepository.create(AN_ITEM, A_COLLECTOR)
     }
 
-    def 'Update item delegates to item service'() {
+    def 'Update item delegates to item repository'() {
         when:
         itemController.update(AN_ITEM, authentication)
 
         then:
-        1 * itemService.update(AN_ITEM, A_COLLECTOR)
+        1 * itemRepository.update(AN_ITEM, A_COLLECTOR)
     }
 
     def 'Delete item delegates to item service'() {
@@ -72,6 +81,6 @@ class ItemControllerTest extends Specification {
         itemController.delete(AN_ITEM, authentication)
 
         then:
-        1 * itemService.delete(AN_ITEM, A_COLLECTOR)
+        1 * itemRepository.delete(AN_ITEM, A_COLLECTOR)
     }
 }
