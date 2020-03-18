@@ -1,0 +1,20 @@
+{
+  "name": "mycollections",
+  "version": "1.0.0",
+  "description": "MyCollections | Bonjour Software Limited",
+  "main": "index.js",
+  "scripts": {
+    "build-dev": "webpack src/index.js --output bin/mycollections.js -d",
+    "build-prod": "webpack src/index.js --output bin/mycollections.js -p"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "mithril": "^2.0.4"
+  },
+  "devDependencies": {
+    "webpack": "^4.42.0",
+    "webpack-cli": "^3.3.11"
+  }
+}

@@ -1,6 +1,6 @@
 micronaut:
   application:
-    name: bjrsft-labs-mycollections
+    name: bonjour-software-limited-mycollections
   router:
     static-resources:
       main:
