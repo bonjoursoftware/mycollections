@@ -5,7 +5,10 @@ module.exports = {
     oninit: Tag.loadList,
     view: function() {
         return m('.tag-list', Tag.list.map(function (tag) {
-            return m('.tag-list-item', tag.name)
+            return m(m.route.Link, {
+                class: 'tag-list-item',
+                href: '/tag/' + tag.name
+            }, tag.name)
         }))
     }
 }
