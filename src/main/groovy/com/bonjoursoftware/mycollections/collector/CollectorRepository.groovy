@@ -23,12 +23,28 @@
  */
 package com.bonjoursoftware.mycollections.collector
 
-import groovy.transform.EqualsAndHashCode
-import org.bson.types.ObjectId
+import com.bonjoursoftware.mycollections.mongo.MongoRepository
+import com.mongodb.client.MongoCollection
+import groovy.transform.CompileStatic
 
-@EqualsAndHashCode
-class Collector {
-    ObjectId id
-    String username
-    String secret
+import javax.inject.Singleton
+
+import static com.mongodb.client.model.Filters.and
+import static com.mongodb.client.model.Filters.eq
+
+@CompileStatic
+@Singleton
+class CollectorRepository implements MongoRepository {
+
+    private static final String COLLECTOR_COLLECTION = 'collector'
+    private static final String USERNAME_FIELD = 'username'
+    private static final String SECRET_FIELD = 'secret'
+
+    Boolean exists(String username, String secret) {
+        collection().find(and(eq(USERNAME_FIELD, username), eq(SECRET_FIELD, secret))).first()
+    }
+
+    private MongoCollection<Collector> collection() {
+        db().getCollection(COLLECTOR_COLLECTION, Collector)
+    }
 }

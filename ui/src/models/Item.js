@@ -13,6 +13,7 @@ var Item = {
         return m.request({
             method: 'POST',
             url: '/api/v1/item',
+            headers: { 'Authorization': 'Basic ' + btoa(localStorage.getItem('username') + ':' + localStorage.getItem('secret'))},
             body: Item.current,
             withCredentials: true
         }).then(function () {

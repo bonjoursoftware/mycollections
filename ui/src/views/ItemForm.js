@@ -10,13 +10,11 @@ module.exports = {
                 Item.save()
             }
         }, [
-            m('label.label', 'Item'),
             m('input.input[type=text][placeholder=Name]', {
                 oninput: function (e) {
                     Item.current.name = e.target.value
                 }, value: Item.current.name
             }),
-            m('label.label', 'Tags'),
             m('input.input[type=text][placeholder=Tags]', {
                 oninput: function (e) {
                     Item.current.tags = e.target.value

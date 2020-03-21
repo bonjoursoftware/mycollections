@@ -23,12 +23,17 @@
  */
 package com.bonjoursoftware.mycollections.collector
 
-import groovy.transform.EqualsAndHashCode
-import org.bson.types.ObjectId
+import io.micronaut.security.authentication.Authentication
 
-@EqualsAndHashCode
-class Collector {
-    ObjectId id
-    String username
-    String secret
+class CollectorAuthenticationExtractor {
+
+    private static final USERNAME_KEY = 'username'
+
+    static String getCollector(Authentication authentication) {
+        Optional.ofNullable(authentication?.getAttributes()?.get(USERNAME_KEY))
+                .orElseThrow({ new UnknownCollectorException() })
+    }
+
+    static class UnknownCollectorException extends RuntimeException {
+    }
 }

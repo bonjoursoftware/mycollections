@@ -26,38 +26,38 @@ package com.bonjoursoftware.mycollections.collector
 import io.micronaut.security.authentication.Authentication
 import spock.lang.Specification
 
-class CollectorTest extends Specification {
+class CollectorAuthenticationExtractorTest extends Specification {
 
     private static final String COLLECTOR_EMAIL = 'collector@dummy-domain.com'
 
     def 'Throws an exception when no collector is authenticated'() {
         when:
-        Collector.getCollector(null)
+        CollectorAuthenticationExtractor.getCollector(null)
 
         then:
-        thrown(Collector.UnknownCollectorException)
+        thrown(CollectorAuthenticationExtractor.UnknownCollectorException)
     }
 
-    def 'Throws an exception when collector email is not known'() {
+    def 'Throws an exception when collector username is not known'() {
         given:
         def authentication = Mock(Authentication) {
             getAttributes() >> [:]
         }
 
         when:
-        Collector.getCollector(authentication)
+        CollectorAuthenticationExtractor.getCollector(authentication)
 
         then:
-        thrown(Collector.UnknownCollectorException)
+        thrown(CollectorAuthenticationExtractor.UnknownCollectorException)
     }
 
-    def 'Returns collector email when collector is authenticated and their email is known'() {
+    def 'Returns collector username when collector is authenticated and their username is known'() {
         given:
         def authentication = Mock(Authentication) {
-            getAttributes() >> [email: COLLECTOR_EMAIL]
+            getAttributes() >> [username: COLLECTOR_EMAIL]
         }
 
         expect:
-        Collector.getCollector(authentication) == COLLECTOR_EMAIL
+        CollectorAuthenticationExtractor.getCollector(authentication) == COLLECTOR_EMAIL
     }
 }

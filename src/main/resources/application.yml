@@ -13,24 +13,9 @@ micronaut:
         httpMethod: GET
         access:
           - isAnonymous()
-    oauth2:
-      enabled: true
-      clients:
-        google:
-          client-id: '${OAUTH_CLIENT_ID}'
-          client-secret: '${OAUTH_CLIENT_SECRET}'
-          openid:
-            issuer: 'https://accounts.google.com'
-    token:
-      jwt:
-        enabled: true
-        cookie:
-          enabled: true
-        signatures:
-          secret:
-            generator:
-              secret: '${JWT_SIGNATURES_SECRET}'
     endpoints:
+      login:
+        enabled: true
       logout:
         enabled: true
         get-allowed: true

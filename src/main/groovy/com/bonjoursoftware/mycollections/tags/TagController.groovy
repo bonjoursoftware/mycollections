@@ -9,7 +9,7 @@ import io.micronaut.security.rules.SecurityRule
 
 import javax.inject.Inject
 
-import static com.bonjoursoftware.mycollections.collector.Collector.getCollector
+import static com.bonjoursoftware.mycollections.collector.CollectorAuthenticationExtractor.getCollector
 
 @CompileStatic
 @Secured(SecurityRule.IS_AUTHENTICATED)

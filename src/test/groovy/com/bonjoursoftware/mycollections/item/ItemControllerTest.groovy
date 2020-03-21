@@ -38,7 +38,7 @@ class ItemControllerTest extends Specification {
 
     void setup() {
         authentication = Mock(Authentication) {
-            getAttributes() >> [email: A_COLLECTOR]
+            getAttributes() >> [username: A_COLLECTOR]
         }
         itemRepository = Mock()
         itemController = new ItemController(itemRepository: itemRepository)
