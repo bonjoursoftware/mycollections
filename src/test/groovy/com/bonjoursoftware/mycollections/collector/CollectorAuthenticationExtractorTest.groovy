@@ -32,7 +32,7 @@ class CollectorAuthenticationExtractorTest extends Specification {
 
     def 'Throws an exception when no collector is authenticated'() {
         when:
-        CollectorAuthenticationExtractor.getCollector(null)
+        CollectorAuthenticationExtractor.getUsername(null)
 
         then:
         thrown(CollectorAuthenticationExtractor.UnknownCollectorException)
@@ -45,7 +45,7 @@ class CollectorAuthenticationExtractorTest extends Specification {
         }
 
         when:
-        CollectorAuthenticationExtractor.getCollector(authentication)
+        CollectorAuthenticationExtractor.getUsername(authentication)
 
         then:
         thrown(CollectorAuthenticationExtractor.UnknownCollectorException)
@@ -58,6 +58,6 @@ class CollectorAuthenticationExtractorTest extends Specification {
         }
 
         expect:
-        CollectorAuthenticationExtractor.getCollector(authentication) == COLLECTOR_EMAIL
+        CollectorAuthenticationExtractor.getUsername(authentication) == COLLECTOR_EMAIL
     }
 }

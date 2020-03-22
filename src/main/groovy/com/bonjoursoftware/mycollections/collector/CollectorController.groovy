@@ -21,29 +21,29 @@
  * along with this program. If not, see
  * https://github.com/bonjoursoftware/mycollections/blob/master/LICENSE
  */
-package com.bonjoursoftware.mycollections
+package com.bonjoursoftware.mycollections.collector
 
 import groovy.transform.CompileStatic
-import io.micronaut.http.MediaType
 import io.micronaut.http.annotation.Controller
 import io.micronaut.http.annotation.Get
-import io.micronaut.http.annotation.Produces
 import io.micronaut.security.annotation.Secured
 import io.micronaut.security.authentication.Authentication
 import io.micronaut.security.rules.SecurityRule
 
+import javax.inject.Inject
+
+import static com.bonjoursoftware.mycollections.collector.CollectorAuthenticationExtractor.getUsername
+
 @CompileStatic
 @Secured(SecurityRule.IS_AUTHENTICATED)
-@Controller('/api/v1/profile')
-class ProfileController {
+@Controller('/api/v1/collector')
+class CollectorController {
 
-    @Produces(MediaType.TEXT_PLAIN)
+    @Inject
+    private CollectorRepository collectorRepository
+
     @Get
-    String profile(Authentication authentication) {
-        new StringBuilder().append("Name: ${authentication.getName()}${System.lineSeparator()}").tap { str ->
-            authentication.getAttributes().each { attr ->
-                str.append("${attr.getKey()}: ${attr.getValue()}${System.lineSeparator()}")
-            }
-        }
+    Collector findByUsername(Authentication authentication) {
+        collectorRepository.findByUsername(getUsername(authentication))
     }
 }

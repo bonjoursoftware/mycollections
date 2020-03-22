@@ -35,7 +35,7 @@ import io.micronaut.security.rules.SecurityRule
 
 import javax.inject.Inject
 
-import static com.bonjoursoftware.mycollections.collector.CollectorAuthenticationExtractor.getCollector
+import static com.bonjoursoftware.mycollections.collector.CollectorAuthenticationExtractor.getUsername
 
 @CompileStatic
 @Secured(SecurityRule.IS_AUTHENTICATED)
@@ -47,22 +47,22 @@ class ItemController {
 
     @Get
     List<Item> findByCollector(Authentication authentication) {
-        itemRepository.findByCollector(getCollector(authentication))
+        itemRepository.findByCollector(getUsername(authentication))
     }
 
     @Get('/{tag}')
     List<Item> findByTagAndCollector(@QueryValue('tag') String tag, Authentication authentication) {
-        itemRepository.findByTagAndCollector(tag, getCollector(authentication))
+        itemRepository.findByTagAndCollector(tag, getUsername(authentication))
     }
 
     @Post
     void upsert(Item item, Authentication authentication) {
         item.tap { tags = tags?.collect { it.trim() } }
-        itemRepository.upsert(item, getCollector(authentication))
+        itemRepository.upsert(item, getUsername(authentication))
     }
 
     @Delete
     void delete(Item item, Authentication authentication) {
-        itemRepository.delete(item, getCollector(authentication))
+        itemRepository.delete(item, getUsername(authentication))
     }
 }

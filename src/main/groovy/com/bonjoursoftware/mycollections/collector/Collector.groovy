@@ -23,12 +23,15 @@
  */
 package com.bonjoursoftware.mycollections.collector
 
+import com.fasterxml.jackson.annotation.JsonIgnore
 import groovy.transform.EqualsAndHashCode
 import org.bson.types.ObjectId
 
 @EqualsAndHashCode
 class Collector {
+    @JsonIgnore
     ObjectId id
     String username
+    @JsonIgnore
     String secret
 }

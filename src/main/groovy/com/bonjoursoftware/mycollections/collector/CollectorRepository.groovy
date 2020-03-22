@@ -44,6 +44,10 @@ class CollectorRepository implements MongoRepository {
         collection().find(and(eq(USERNAME_FIELD, username), eq(SECRET_FIELD, secret))).first()
     }
 
+    Collector findByUsername(String username) {
+        collection().find(eq(USERNAME_FIELD, username)).first()
+    }
+
     private MongoCollection<Collector> collection() {
         db().getCollection(COLLECTOR_COLLECTION, Collector)
     }

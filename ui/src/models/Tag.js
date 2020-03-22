@@ -7,7 +7,7 @@ var Tag = {
         return m.request({
             method: 'GET',
             url: '/api/v1/tag',
-            headers: { 'Authorization': 'Basic ' + btoa(localStorage.getItem('username') + ':' + localStorage.getItem('secret'))},
+            headers: { 'Authorization': 'Basic ' + localStorage.getItem('basicauth') },
             withCredentials: true
         }).then(function (result) {
             Tag.list = result
@@ -22,7 +22,7 @@ var Tag = {
         return m.request({
             method: 'GET',
             url: '/api/v1/item/' + tagName,
-            headers: { 'Authorization': 'Basic ' + btoa(localStorage.getItem('username') + ':' + localStorage.getItem('secret'))},
+            headers: { 'Authorization': 'Basic ' + localStorage.getItem('basicauth') },
             withCredentials: true
         }).then(function (result) {
             Tag.item = result

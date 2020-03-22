@@ -1,5 +1,5 @@
 FROM arm32v7/adoptopenjdk:13.0.2_8-jdk-hotspot-bionic
 WORKDIR /home/mycollections
-COPY build/libs/mycollections-1.0.0-all.jar ./mycollections.jar
+COPY build/libs/mycollections-1.0.1-all.jar ./mycollections.jar
 EXPOSE 8080
 CMD ["java", "-Dcom.sun.management.jmxremote", "-Xmx256m", "-jar", "mycollections.jar"]

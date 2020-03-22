@@ -29,7 +29,7 @@ class CollectorAuthenticationExtractor {
 
     private static final USERNAME_KEY = 'username'
 
-    static String getCollector(Authentication authentication) {
+    static String getUsername(Authentication authentication) {
         Optional.ofNullable(authentication?.getAttributes()?.get(USERNAME_KEY))
                 .orElseThrow({ new UnknownCollectorException() })
     }
