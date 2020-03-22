@@ -14,4 +14,5 @@ This project serves as a showcase that demonstrates the development of a microse
 - Gradle build
 - Docker and docker-compose
 - MongoDB
+- Mithril
 - and more as the project develops...
