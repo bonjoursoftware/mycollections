@@ -10,7 +10,7 @@ var Tag = {
             headers: { 'Authorization': 'Basic ' + localStorage.getItem('basicauth') },
             withCredentials: true
         }).then(function (result) {
-            Tag.list = result
+            Tag.list = result.sort()
         }).catch(function (err) {
             console.log('User not logged in')
         })
@@ -25,7 +25,9 @@ var Tag = {
             headers: { 'Authorization': 'Basic ' + localStorage.getItem('basicauth') },
             withCredentials: true
         }).then(function (result) {
-            Tag.item = result
+            Tag.item = result.sort(function (item1, item2) {
+                return item1.name.localeCompare(item2.name)
+            })
         })
     }
 }
