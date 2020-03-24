@@ -11,6 +11,7 @@ var Tag = {
             withCredentials: true
         }).then(function (result) {
             Tag.list = result.sort()
+            localStorage.setItem('tags', Tag.list)
         }).catch(function (err) {
             console.log('User not logged in')
         })
