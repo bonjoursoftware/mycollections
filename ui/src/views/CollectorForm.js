@@ -14,22 +14,42 @@ module.exports = {
                 Collector.reset()
             }
         }, Collector.authenticated ? [
-                m('label.label', 'Hi ' + localStorage.getItem('username')),
-                m('button.button[type=reset]', 'Logout')
+                m('div', {class: 'field is-grouped'}, [
+                    m('p', {class: 'control is-expanded'}, [
+                        m('label', {class: 'label'}, 'Hi, ' + localStorage.getItem('username'))
+                    ]),
+                    m('p', {class: 'control'}, [
+                        m('button', {type: 'reset', class: 'button is-danger'}, 'Logout')
+                    ]),
+                ])
             ]
             :
             [
-                m('input.input[type=text][placeholder=Username][autocorrect=off][autocapitalize=none][autocomplete=off]', {
-                    oninput: function (e) {
-                        Collector.current.username = e.target.value
-                    }, value: Collector.current.username
-                }),
-                m('input.input[type=password][placeholder=Secret]', {
-                    oninput: function (e) {
-                        Collector.current.secret = e.target.value
-                    }, value: Collector.current.secret
-                }),
-                m('button.button[type=submit]', 'Login')
+                m('div', {class: 'field is-grouped'}, [
+                    m('p', {class: 'control has-icons-left is-expanded'}, [
+                        m('input.input[type=email][placeholder=Email]', {
+                            oninput: function (e) {
+                                Collector.current.username = e.target.value
+                            }, value: Collector.current.username
+                        }),
+                        m('span', {class: 'icon is-small is-left'}, [
+                            m('i', {class: 'fas fa-envelope'})
+                        ])
+                    ]),
+                    m('p', {class: 'control has-icons-left is-expanded'}, [
+                        m('input.input[type=password][placeholder=Password]', {
+                            oninput: function (e) {
+                                Collector.current.secret = e.target.value
+                            }, value: Collector.current.secret
+                        }),
+                        m('span', {class: 'icon is-small is-left'}, [
+                            m('i', {class: 'fas fa-lock'})
+                        ])
+                    ]),
+                    m('p', {class: 'control'}, [
+                        m('button', {type: 'submit', class: 'button is-success'}, 'Login')
+                    ])
+                ])
             ])
     }
 }

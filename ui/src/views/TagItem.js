@@ -6,8 +6,8 @@ module.exports = {
         Tag.loadItem(vnode.attrs.name)
     },
     view: function () {
-        return m('.item-list', Tag.item.map(function (item) {
-            return m('.item-list-item', item.name)
+        return m('div', Tag.item.map(function (item) {
+            return m('div', item.name)
         }))
     }
 }

@@ -3,13 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <title>MyCollections 1.0.1 | Bonjour Software Limited</title>
-    <link href="styles.css" rel="stylesheet"/>
+    <title>MyCollections 1.0.2 | Bonjour Software Limited</title>
+    <link rel="stylesheet" href="https://unpkg.com/bulmaswatch/solar/bulmaswatch.min.css">
+    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
 </head>
 <body>
-<p id="collector"></p>
-<h5><a href="/#!/tag">Tags</a> | <a href="/#!/item">Add item</a></h5>
-<p id="mycollections"></p>
+<section class="section">
+    <div class="columns">
+        <div class="column">
+            <div id="collector"></div>
+            <div class="tabs">
+                <ul>
+                    <li>
+                        <a href="/#!/tag">
+                            <span class="icon is-small"><i class="fas fa-file-alt"></i></span>
+                            <span>Tags</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/#!/item">
+                            <span class="icon is-small"><i class="fas fa-edit"></i></span>
+                            <span>Add item</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div id="mycollections"></div>
+        </div>
+    </div>
+</section>
 <script src="mycollections.js"></script>
 </body>
 </html>

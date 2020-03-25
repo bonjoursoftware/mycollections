@@ -8,6 +8,7 @@ var Collector = {
         localStorage.clear()
         Collector.current = {}
         Collector.authenticated = false
+        m.route.set('/')
     },
 
     store: function () {
@@ -24,6 +25,7 @@ var Collector = {
             withCredentials: true
         }).then(function (result) {
             Collector.authenticated = true
+            m.route.set('/tag')
         }).catch(function (err) {
             Collector.authenticated = false
         })

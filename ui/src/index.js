@@ -1,5 +1,6 @@
 var m = require('mithril')
 
+var EmptyView = require('./views/EmptyView')
 var TagList = require('./views/TagList')
 var TagItem = require('./views/TagItem')
 var ItemForm = require('./views/ItemForm')
@@ -9,7 +10,8 @@ var collector = document.getElementById('collector')
 m.mount(collector, CollectorForm)
 
 var mycollections = document.getElementById('mycollections')
-m.route(mycollections, '/tag', {
+m.route(mycollections, '/', {
+    '/': EmptyView,
     '/tag': TagList,
     '/tag/:name': TagItem,
     '/item': ItemForm

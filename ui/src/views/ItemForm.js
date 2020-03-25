@@ -10,17 +10,25 @@ module.exports = {
                 Item.save()
             }
         }, [
-            m('input.input[type=text][placeholder=Name]', {
-                oninput: function (e) {
-                    Item.current.name = e.target.value
-                }, value: Item.current.name
-            }),
-            m('input.input[type=text][placeholder=Tags]', {
-                oninput: function (e) {
-                    Item.current.tags = e.target.value
-                }, value: Item.current.tags
-            }),
-            m('button.button[type=submit]', 'Add')
+            m('div', {class: 'field is-grouped'}, [
+                m('p', {class: 'control is-expanded'}, [
+                    m('input.input[type=text][placeholder=Name]', {
+                        oninput: function (e) {
+                            Item.current.name = e.target.value
+                        }, value: Item.current.name
+                    })
+                ]),
+                m('p', {class: 'control is-expanded'}, [
+                    m('input.input[type=text][placeholder=Tags]', {
+                        oninput: function (e) {
+                            Item.current.tags = e.target.value
+                        }, value: Item.current.tags
+                    }),
+                ]),
+                m('p', {class: 'control'}, [
+                    m('button', {type: 'submit', class: 'button is-success'}, 'Add')
+                ])
+            ])
         ])
     }
 }
