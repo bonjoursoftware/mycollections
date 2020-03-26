@@ -10,8 +10,7 @@ var Tag = {
             headers: { 'Authorization': 'Basic ' + localStorage.getItem('basicauth') },
             withCredentials: true
         }).then(function (result) {
-            Tag.list = result.sort()
-            localStorage.setItem('tags', Tag.list)
+            Tag.list = result.map(o => o.name).sort()
         }).catch(function (err) {
             console.log('User not logged in')
         })
@@ -30,6 +29,13 @@ var Tag = {
                 return item1.name.localeCompare(item2.name)
             })
         })
+    },
+
+    newTag: undefined,
+    addTag: function () {
+        Tag.list.push(Tag.newTag)
+        Tag.list.sort()
+        Tag.newTag = undefined
     }
 }
 
