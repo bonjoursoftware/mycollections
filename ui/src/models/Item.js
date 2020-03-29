@@ -37,6 +37,21 @@ var Item = {
         })
     },
 
+    delete: function () {
+        if (Item.isEmpty()) {
+            return
+        }
+        return m.request({
+            method: 'DELETE',
+            url: '/api/v1/item',
+            headers: {'Authorization': 'Basic ' + localStorage.getItem('basicauth')},
+            body: Item.current,
+            withCredentials: true
+        }).then(function () {
+            Item.reset()
+        })
+    },
+
     addTag: function (tag) {
         Item.current.tags.push(tag)
     },

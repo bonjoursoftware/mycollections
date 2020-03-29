@@ -38,13 +38,23 @@ module.exports = {
                             class: 'button is-success',
                             disabled: Item.isEmpty()
                         }, Item.exists() ? 'Save' : 'Add')
-                    ])
+                    ]),
+                    m('p', {class: 'control'}, [
+                        m('button', {
+                            class: Item.exists() ? 'button is-danger' : 'button is-danger is-hidden',
+                            disabled: Item.isEmpty(),
+                            onclick: function () {
+                                Item.delete()
+                            }
+                        }, 'Delete')
+                    ]),
                 ]),
                 m('div', {class: 'field'}, [
                     m('div', {class: 'tags are-medium'}, [
                         Tag.list.map(function (tag) {
                             return m('a', {
-                                class: Item.current.tags.includes(tag) ? 'tag is-info' : 'tag is-light', onclick: function (e) {
+                                class: Item.current.tags.includes(tag) ? 'tag is-info' : 'tag is-light',
+                                onclick: function (e) {
                                     var tag = e.target
                                     if (tag.classList.contains('is-light')) {
                                         tag.classList.replace('is-light', 'is-info')
