@@ -13,9 +13,13 @@ module.exports = {
                     m('li', {class: 'is-active'}, [m('a', {href: '#', 'aria-current': 'page'}, Tag.current)])
                 ])
             ]),
-            Tag.item.map(function (item) {
-                return m('div', item.name)
-            })
+            m('aside', {class: 'menu'}, [
+                m('ul', {class: 'menu-list'}, Tag.item.map(function (item) {
+                    return m('li', [
+                        m('a', {href: '/#!/item/' + item.id}, item.name)
+                    ])
+                }))
+            ])
         ])
     }
 }

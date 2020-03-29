@@ -11,6 +11,17 @@ var Item = {
         }
     },
 
+    load: function (id) {
+        return m.request({
+            method: 'GET',
+            url: '/api/v1/item/' + id,
+            headers: {'Authorization': 'Basic ' + localStorage.getItem('basicauth')},
+            withCredentials: true
+        }).then(function (result) {
+            Item.current = result
+        })
+    },
+
     save: function () {
         if (Item.isEmpty()) {
             return
@@ -36,6 +47,10 @@ var Item = {
 
     isEmpty: function () {
         return !Item.current.name || Item.current.tags.length < 1
+    },
+
+    exists: function () {
+        return Item.current.id !== undefined
     }
 }
 

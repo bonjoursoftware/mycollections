@@ -23,7 +23,7 @@ module.exports = {
                 }, [
                     m('a', [
                         m('span', {class: 'icon is-small'}, [m('i', {class: 'fas fa-edit'})]),
-                        m('span', 'Add item')
+                        m('span', 'Item')
                     ])
                 ])
             ] : [])

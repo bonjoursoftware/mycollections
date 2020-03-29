@@ -18,5 +18,6 @@ m.route(mycollections, '/', {
     '/': EmptyView,
     '/tag': TagList,
     '/tag/:name': TagItem,
-    '/item': ItemForm
+    '/item': ItemForm,
+    '/item/:id': ItemForm,
 })

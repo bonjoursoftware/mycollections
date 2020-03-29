@@ -24,6 +24,7 @@
 package com.bonjoursoftware.mycollections.item
 
 import com.bonjoursoftware.mycollections.mongo.MongoRepository
+import com.bonjoursoftware.mycollections.mongo.StringToObjectIdConverter
 import com.mongodb.client.MongoCollection
 import groovy.transform.CompileStatic
 import org.bson.conversions.Bson
@@ -39,8 +40,14 @@ class ItemRepository implements MongoRepository {
 
     private static final String ID_FIELD = '_id'
 
+    private StringToObjectIdConverter oidConverter = new StringToObjectIdConverter()
+
     List<Item> findByCollector(String collector) {
         collection(collector).find().asList()
+    }
+
+    Item findByIdAndCollector(String id, String collector) {
+        collection(collector).find(byId(id)).first()
     }
 
     void upsert(Item item, String collector) {
@@ -57,6 +64,10 @@ class ItemRepository implements MongoRepository {
 
     private void replace(Item item, String collector) {
         collection(collector).replaceOne(byId(item), item)
+    }
+
+    private Bson byId(String id) {
+        eq(ID_FIELD, oidConverter.convert(id))
     }
 
     private Bson byId(Item item) {
