@@ -42,7 +42,7 @@ module.exports = {
                     m('p', {class: 'control'}, [
                         m('button', {
                             class: Item.exists() ? 'button is-danger' : 'button is-danger is-hidden',
-                            disabled: Item.isEmpty(),
+                            disabled: !Item.exists(),
                             onclick: function () {
                                 Item.delete()
                             }
