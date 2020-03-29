@@ -23,7 +23,11 @@ module.exports = {
                     })
                 ]),
                 m('p', {class: 'control'}, [
-                    m('button', {type: 'submit', class: 'button is-success'}, 'Add')
+                    m('button', {
+                        type: 'submit',
+                        class: 'button is-success',
+                        disabled: Item.isEmpty()
+                    }, 'Add')
                 ])
             ]),
             m('div', {class: 'field'}, [
