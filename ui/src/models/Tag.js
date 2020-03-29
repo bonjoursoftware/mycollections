@@ -16,8 +16,10 @@ var Tag = {
         })
     },
 
+    current: undefined,
     item: [],
     loadItem: function (tagName) {
+        Tag.current = tagName
         Tag.item = []
         return m.request({
             method: 'GET',

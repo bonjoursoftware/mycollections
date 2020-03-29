@@ -4,7 +4,12 @@ var Tag = require('../models/Tag')
 module.exports = {
     oninit: Tag.loadList,
     view: function () {
-        return m('div', [
+        return m('section', {class: 'section'}, [
+            m('nav', {class: 'breadcrumb is-medium', 'aria-label': 'breadcrumbs'}, [
+                m('ul', [
+                    m('li', {class: 'is-active'}, [m('a', {href: '/#!/tag'}, 'Tags')])
+                ])
+            ]),
             m('aside', {class: 'menu'}, [
                 m('ul', {class: 'menu-list'}, Tag.list.map(function (tag) {
                     return m('li', [
