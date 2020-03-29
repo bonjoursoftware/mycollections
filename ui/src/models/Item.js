@@ -13,7 +13,7 @@ var Item = {
 
     save: function () {
         Item.current.name = Item.current.name ? Item.current.name : 'unnamed'
-        Item.current.tags = Item.current.tags ? Item.current.tags : ['untagged']
+        Item.current.tags = Item.current.tags.length > 0 ? Item.current.tags : ['untagged']
         return m.request({
             method: 'POST',
             url: '/api/v1/item',
