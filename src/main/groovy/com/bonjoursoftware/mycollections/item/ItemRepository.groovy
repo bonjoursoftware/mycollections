@@ -43,10 +43,6 @@ class ItemRepository implements MongoRepository {
         collection(collector).find().asList()
     }
 
-    List<Item> findByTagAndCollector(String tag, String collector) {
-        collection(collector).find(eq(TAGS_FIELD, tag)).asList()
-    }
-
     void upsert(Item item, String collector) {
         item.id ? replace(item, collector) : create(item, collector)
     }

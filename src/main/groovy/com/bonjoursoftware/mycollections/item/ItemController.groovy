@@ -28,7 +28,6 @@ import io.micronaut.http.annotation.Controller
 import io.micronaut.http.annotation.Delete
 import io.micronaut.http.annotation.Get
 import io.micronaut.http.annotation.Post
-import io.micronaut.http.annotation.QueryValue
 import io.micronaut.security.annotation.Secured
 import io.micronaut.security.authentication.Authentication
 import io.micronaut.security.rules.SecurityRule
@@ -48,11 +47,6 @@ class ItemController {
     @Get
     List<Item> findByCollector(Authentication authentication) {
         itemRepository.findByCollector(getUsername(authentication))
-    }
-
-    @Get('/{tag}')
-    List<Item> findByTagAndCollector(@QueryValue('tag') String tag, Authentication authentication) {
-        itemRepository.findByTagAndCollector(tag, getUsername(authentication))
     }
 
     @Post

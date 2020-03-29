@@ -21,49 +21,41 @@
  * along with this program. If not, see
  * https://github.com/bonjoursoftware/mycollections/blob/master/LICENSE
  */
-package com.bonjoursoftware.mycollections.item
+package com.bonjoursoftware.mycollections.tags
 
 import io.micronaut.security.authentication.Authentication
 import spock.lang.Specification
 
-class ItemControllerTest extends Specification {
+class TagControllerTest extends Specification {
 
     private static final String A_COLLECTOR = 'collector'
-    private static final Item AN_ITEM = new Item(name: 'an item')
+    private static final String A_TAG = 'tag'
 
     private Authentication authentication
-    private ItemController itemController
-    private ItemRepository itemRepository
+    private TagController tagController
+    private TagRepository tagRepository
 
     void setup() {
         authentication = Mock(Authentication) {
             getAttributes() >> [username: A_COLLECTOR]
         }
-        itemRepository = Mock()
-        itemController = new ItemController(itemRepository: itemRepository)
+        tagRepository = Mock()
+        tagController = new TagController(tagRepository: tagRepository)
     }
 
-    def 'Find by collector delegates to item repository'() {
+    def 'Find by collector delegates to tag repository'() {
         when:
-        itemController.findByCollector(authentication)
+        tagController.findByCollector(authentication)
 
         then:
-        1 * itemRepository.findByCollector(A_COLLECTOR)
+        1 * tagRepository.findByCollector(A_COLLECTOR)
     }
 
-    def 'Upsert item delegates to item repository'() {
+    def 'Find by tag and collector delegates to tag repository'() {
         when:
-        itemController.upsert(AN_ITEM, authentication)
+        tagController.findByTagAndCollector(A_TAG, authentication)
 
         then:
-        1 * itemRepository.upsert(AN_ITEM, A_COLLECTOR)
-    }
-
-    def 'Delete item delegates to item repository'() {
-        when:
-        itemController.delete(AN_ITEM, authentication)
-
-        then:
-        1 * itemRepository.delete(AN_ITEM, A_COLLECTOR)
+        1 * tagRepository.findByTagAndCollector(A_TAG, A_COLLECTOR)
     }
 }

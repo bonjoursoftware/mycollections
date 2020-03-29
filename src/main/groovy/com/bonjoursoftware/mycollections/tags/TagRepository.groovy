@@ -23,21 +23,32 @@
  */
 package com.bonjoursoftware.mycollections.tags
 
+import com.bonjoursoftware.mycollections.item.Item
 import com.bonjoursoftware.mycollections.mongo.MongoRepository
 import com.mongodb.client.MongoCollection
 import groovy.transform.CompileStatic
 
 import javax.inject.Singleton
 
+import static com.mongodb.client.model.Filters.eq
+
 @CompileStatic
 @Singleton
 class TagRepository implements MongoRepository {
 
     List<Tag> findByCollector(String collector) {
-        collection(collector).distinct(TAGS_FIELD, String).asList().collect { new Tag(name: it) }
+        tagCollection(collector).distinct(TAGS_FIELD, String).asList().collect { new Tag(name: it) }
     }
 
-    private MongoCollection collection(String collector) {
+    List<Item> findByTagAndCollector(String tag, String collector) {
+        itemCollection(collector).find(eq(TAGS_FIELD, tag)).asList()
+    }
+
+    private MongoCollection tagCollection(String collector) {
         db().getCollection(collector, String)
+    }
+
+    private MongoCollection<Item> itemCollection(String collector) {
+        db().getCollection(collector, Item)
     }
 }
