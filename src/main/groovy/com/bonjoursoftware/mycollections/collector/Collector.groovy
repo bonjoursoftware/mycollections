@@ -32,6 +32,7 @@ class Collector {
     @JsonIgnore
     ObjectId id
     String username
+    String friendlyname
     @JsonIgnore
     String secret
 }

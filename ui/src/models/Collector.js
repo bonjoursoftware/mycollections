@@ -24,6 +24,7 @@ var Collector = {
             headers: { 'Authorization': 'Basic ' + localStorage.getItem('basicauth') },
             withCredentials: true
         }).then(function (result) {
+            localStorage.setItem('friendlyname', result.friendlyname)
             Collector.authenticated = true
             m.route.set('/tag')
         }).catch(function (err) {

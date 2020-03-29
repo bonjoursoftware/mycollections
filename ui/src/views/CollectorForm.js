@@ -16,7 +16,7 @@ module.exports = {
         }, Collector.authenticated ? [
                 m('div', {class: 'field is-grouped'}, [
                     m('p', {class: 'control is-expanded'}, [
-                        m('label', {class: 'label'}, 'Hi, ' + localStorage.getItem('username'))
+                        m('label', {class: 'label'}, 'Hi, ' + localStorage.getItem('friendlyname') + '!')
                     ]),
                     m('p', {class: 'control'}, [
                         m('button', {type: 'reset', class: 'button is-danger'}, 'Logout')
