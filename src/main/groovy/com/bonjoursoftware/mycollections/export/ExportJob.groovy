@@ -21,38 +21,23 @@
  * along with this program. If not, see
  * https://github.com/bonjoursoftware/mycollections/blob/master/LICENSE
  */
-package com.bonjoursoftware.mycollections.collector
+package com.bonjoursoftware.mycollections.export
 
-import com.bonjoursoftware.mycollections.mongo.MongoRepository
-import com.mongodb.client.MongoCollection
 import groovy.transform.CompileStatic
+import io.micronaut.scheduling.annotation.Scheduled
 
+import javax.inject.Inject
 import javax.inject.Singleton
-
-import static com.mongodb.client.model.Filters.and
-import static com.mongodb.client.model.Filters.eq
 
 @CompileStatic
 @Singleton
-class CollectorRepository implements MongoRepository {
+class ExportJob {
 
-    private static final String COLLECTOR_COLLECTION = 'collector'
-    private static final String USERNAME_FIELD = 'username'
-    private static final String SECRET_FIELD = 'secret'
+    @Inject
+    private ExportService exportService
 
-    Boolean exists(String username, String secret) {
-        collection().find(and(eq(USERNAME_FIELD, username), eq(SECRET_FIELD, secret))).first()
-    }
-
-    Collector findByUsername(String username) {
-        collection().find(eq(USERNAME_FIELD, username)).first()
-    }
-
-    List<Collector> findAll() {
-        collection().find().asList()
-    }
-
-    private MongoCollection<Collector> collection() {
-        db().getCollection(COLLECTOR_COLLECTION, Collector)
+    @Scheduled(initialDelay = '1m', fixedDelay = '24h')
+    void export() {
+        exportService.run()
     }
 }

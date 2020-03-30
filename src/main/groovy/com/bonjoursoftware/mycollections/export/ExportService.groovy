@@ -21,38 +21,34 @@
  * along with this program. If not, see
  * https://github.com/bonjoursoftware/mycollections/blob/master/LICENSE
  */
-package com.bonjoursoftware.mycollections.collector
+package com.bonjoursoftware.mycollections.export
 
-import com.bonjoursoftware.mycollections.mongo.MongoRepository
-import com.mongodb.client.MongoCollection
+import com.bonjoursoftware.mycollections.collector.CollectorRepository
+import com.bonjoursoftware.mycollections.item.ItemRepository
 import groovy.transform.CompileStatic
 
+import javax.inject.Inject
 import javax.inject.Singleton
-
-import static com.mongodb.client.model.Filters.and
-import static com.mongodb.client.model.Filters.eq
+import java.time.LocalDateTime
 
 @CompileStatic
 @Singleton
-class CollectorRepository implements MongoRepository {
+class ExportService {
 
-    private static final String COLLECTOR_COLLECTION = 'collector'
-    private static final String USERNAME_FIELD = 'username'
-    private static final String SECRET_FIELD = 'secret'
+    @Inject
+    private CollectorRepository collectorRepository
 
-    Boolean exists(String username, String secret) {
-        collection().find(and(eq(USERNAME_FIELD, username), eq(SECRET_FIELD, secret))).first()
-    }
+    @Inject
+    private ItemRepository itemRepository
 
-    Collector findByUsername(String username) {
-        collection().find(eq(USERNAME_FIELD, username)).first()
-    }
-
-    List<Collector> findAll() {
-        collection().find().asList()
-    }
-
-    private MongoCollection<Collector> collection() {
-        db().getCollection(COLLECTOR_COLLECTION, Collector)
+    Export run() {
+        new Export(
+                date: LocalDateTime.now(),
+                collectors: collectorRepository.findAll().collect() {
+                    new EnrichedCollector(
+                            collector: it,
+                            items: itemRepository.findByCollector(it.username))
+                }
+        )
     }
 }
