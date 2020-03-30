@@ -1,6 +1,6 @@
 #!/bin/sh
 
-echo '=\n====\nBuilding the user interface...'
+echo '\n====\nBuilding the user interface...'
 cd ./ui
 ./build.sh
 
