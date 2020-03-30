@@ -30,7 +30,6 @@ import groovy.transform.CompileStatic
 import org.bson.conversions.Bson
 
 import javax.inject.Singleton
-import java.time.Instant
 
 import static com.mongodb.client.model.Filters.eq
 
@@ -59,7 +58,7 @@ class ItemRepository implements MongoRepository {
     }
 
     private void create(Item item, String collector) {
-        collection(collector).insertOne(item.tap { creation = Instant.now() })
+        collection(collector).insertOne(item)
     }
 
     private void replace(Item item, String collector) {

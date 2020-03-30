@@ -25,13 +25,10 @@ package com.bonjoursoftware.mycollections.item
 
 import com.bonjoursoftware.mycollections.mongo.ObjectIdToStringConverter
 import com.bonjoursoftware.mycollections.mongo.StringToObjectIdConverter
-import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.fasterxml.jackson.databind.annotation.JsonSerialize
 import groovy.transform.EqualsAndHashCode
 import org.bson.types.ObjectId
-
-import java.time.Instant
 
 @EqualsAndHashCode
 class Item {
@@ -40,6 +37,4 @@ class Item {
     ObjectId id
     String name
     List<String> tags
-    @JsonIgnore
-    Instant creation
 }
