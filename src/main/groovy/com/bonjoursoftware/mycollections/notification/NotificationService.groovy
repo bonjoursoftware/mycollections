@@ -21,23 +21,12 @@
  * along with this program. If not, see
  * https://github.com/bonjoursoftware/mycollections/blob/master/LICENSE
  */
-package com.bonjoursoftware.mycollections.export
+package com.bonjoursoftware.mycollections.notification
 
-import groovy.transform.CompileStatic
-import io.micronaut.scheduling.annotation.Scheduled
+trait NotificationService {
+    String apiKey
+    String source
+    String target
 
-import javax.inject.Inject
-import javax.inject.Singleton
-
-@CompileStatic
-@Singleton
-class ExportJob {
-
-    @Inject
-    private ExportService exportService
-
-    @Scheduled(initialDelay = '1m', fixedDelay = '24h')
-    void export() {
-        exportService.run()
-    }
+    abstract void notify(String title, String body)
 }

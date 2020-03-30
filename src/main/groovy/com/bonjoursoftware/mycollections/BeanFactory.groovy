@@ -23,6 +23,8 @@
  */
 package com.bonjoursoftware.mycollections
 
+import com.bonjoursoftware.mycollections.notification.EmailNotificationService
+import com.bonjoursoftware.mycollections.notification.NotificationService
 import com.mongodb.ConnectionString
 import com.mongodb.MongoClientSettings
 import com.mongodb.client.MongoClient
@@ -49,5 +51,16 @@ class BeanFactory {
                 .applyConnectionString(new ConnectionString("mongodb+srv://${user}:${password}@${host}/?retryWrites=true&w=majority"))
                 .codecRegistry(CodecRegistries.fromRegistries(MongoClientSettings.getDefaultCodecRegistry(), CodecRegistries.fromProviders(PojoCodecProvider.builder().automatic(true).build())))
                 .build())
+    }
+
+    @Singleton
+    NotificationService notificationService(
+            @Property(name = 'notification.type') String type,
+            @Property(name = 'notification.apiKey') String apiKey,
+            @Property(name = 'notification.source') String source,
+            @Property(name = 'notification.target') String target
+    ) {
+        if (type != 'email') throw new RuntimeException("Notification type [$type] is not supported")
+        new EmailNotificationService(apiKey: apiKey, source: source, target: target)
     }
 }

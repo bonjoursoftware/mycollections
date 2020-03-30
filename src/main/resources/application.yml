@@ -24,3 +24,8 @@ mongo:
   password: '${MONGODB_PASSWORD}'
   host: '${MONGODB_HOST}'
   database: 'mycollections'
+notification:
+  type: 'email'
+  apiKey: '${NOTIFICATION_API_KEY}'
+  source: '${NOTIFICATION_SOURCE}'
+  target: '${NOTIFICATION_TARGET}'

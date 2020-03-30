@@ -21,8 +21,35 @@
  * along with this program. If not, see
  * https://github.com/bonjoursoftware/mycollections/blob/master/LICENSE
  */
-package com.bonjoursoftware.mycollections.export
+package com.bonjoursoftware.mycollections
 
-class Export {
-    List<EnrichedCollector> collectors
+import com.bonjoursoftware.mycollections.export.ExportService
+import com.bonjoursoftware.mycollections.notification.NotificationService
+import com.fasterxml.jackson.databind.ObjectMapper
+import groovy.transform.CompileStatic
+import io.micronaut.scheduling.annotation.Scheduled
+
+import javax.inject.Inject
+import javax.inject.Singleton
+
+@CompileStatic
+@Singleton
+class BackupJob {
+
+    private static final String BACKUP_NOTIFICATION_TITLE = 'Data Backup'
+
+    @Inject
+    private ExportService exportService
+
+    @Inject
+    private NotificationService notificationService
+
+    @Scheduled(initialDelay = '1m', fixedDelay = '24h')
+    void backup() {
+        notificationService.notify(BACKUP_NOTIFICATION_TITLE, buildBackup())
+    }
+
+    private String buildBackup() {
+        new ObjectMapper().writeValueAsString(exportService.run())
+    }
 }

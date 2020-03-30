@@ -29,7 +29,6 @@ import groovy.transform.CompileStatic
 
 import javax.inject.Inject
 import javax.inject.Singleton
-import java.time.LocalDateTime
 
 @CompileStatic
 @Singleton
@@ -43,11 +42,8 @@ class ExportService {
 
     Export run() {
         new Export(
-                date: LocalDateTime.now(),
                 collectors: collectorRepository.findAll().collect() {
-                    new EnrichedCollector(
-                            collector: it,
-                            items: itemRepository.findByCollector(it.username))
+                    new EnrichedCollector(collector: it, items: itemRepository.findByCollector(it.username))
                 }
         )
     }
