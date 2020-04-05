@@ -12,7 +12,7 @@ This project serves as a showcase that demonstrates the development of a microse
 - Spock specification framework
 - Micronaut framework
 - Gradle build
-- Docker and docker-compose
+- Docker
 - MongoDB
 - Mithril
 - and more as the project develops...
