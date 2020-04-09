@@ -13,6 +13,8 @@ This project serves as a showcase that demonstrates the development of a microse
 - Micronaut framework
 - Gradle build
 - Docker
+- Docker-compose
 - MongoDB
 - Mithril
+- Traefik
 - and more as the project develops...
