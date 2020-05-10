@@ -2,12 +2,16 @@ var m = require('mithril')
 var Tag = require('../models/Tag')
 
 module.exports = {
-    oninit: Tag.loadList,
+    oninit: Tag.load,
     view: function () {
         return m('section', {class: 'section'}, [
             m('nav', {class: 'breadcrumb is-medium', 'aria-label': 'breadcrumbs'}, [
                 m('ul', [
-                    m('li', {class: 'is-active'}, [m('a', {href: '/#!/tag'}, 'Tags')])
+                    m('li', {class: 'is-active'}, [m('a', {
+                        onclick: function () {
+                            Tag.reset()
+                        }
+                    }, 'Tags')])
                 ])
             ]),
             m('aside', {class: 'menu'}, [

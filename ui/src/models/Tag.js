@@ -7,7 +7,7 @@ var Tag = {
         return m.request({
             method: 'GET',
             url: '/api/v1/tag',
-            headers: { 'Authorization': 'Basic ' + localStorage.getItem('basicauth') },
+            headers: {'Authorization': 'Basic ' + localStorage.getItem('basicauth')},
             withCredentials: true
         }).then(function (result) {
             Tag.list = result.map(o => o.name).sort()
@@ -24,7 +24,7 @@ var Tag = {
         return m.request({
             method: 'GET',
             url: '/api/v1/tag/' + encodeURIComponent(tagName),
-            headers: { 'Authorization': 'Basic ' + localStorage.getItem('basicauth') },
+            headers: {'Authorization': 'Basic ' + localStorage.getItem('basicauth')},
             withCredentials: true
         }).then(function (result) {
             Tag.item = result.sort(function (item1, item2) {
@@ -38,6 +38,23 @@ var Tag = {
         Tag.list.push(Tag.newTag)
         Tag.list.sort()
         Tag.newTag = undefined
+    },
+
+    load: function () {
+        if (Tag.current !== undefined) {
+            Tag.loadCurrent()
+        } else {
+            Tag.loadList()
+        }
+    },
+
+    loadCurrent: function () {
+        m.route.set('/tag/' + encodeURIComponent(Tag.current))
+    },
+
+    reset: function () {
+        Tag.current = undefined
+        m.route.set('/tag')
     }
 }
 
