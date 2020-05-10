@@ -1,12 +1,10 @@
 var m = require('mithril')
 var Item = require('../models/Item')
 var Tag = require('../models/Tag')
-var Tab = require('../models/Tab')
 
 module.exports = {
     oninit: function (vnode) {
         Item.reset()
-        Tab.select('item')
         var itemId = vnode.attrs.id
         if (itemId) {
             Item.load(itemId)

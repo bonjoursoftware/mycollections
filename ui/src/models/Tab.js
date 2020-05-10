@@ -1,13 +1,16 @@
 var m = require('mithril')
 
 var Tab = {
-    active: {
-        name: 'tag'
+    select: function (tab) {
+        m.route.set('/' + encodeURIComponent(tab))
     },
 
-    select: function (tab) {
-        Tab.active.name = tab
-        m.route.set('/' + Tab.active.name)
+    isTagActive: function () {
+        return m.route.get().startsWith('/tag')
+    },
+
+    isItemActive: function () {
+        return m.route.get().startsWith('/item')
     }
 }
 

@@ -1,4 +1,5 @@
 var m = require('mithril')
+var Tag = require('./Tag')
 
 var Collector = {
     current: {},
@@ -26,9 +27,10 @@ var Collector = {
         }).then(function (result) {
             localStorage.setItem('friendlyname', result.friendlyname)
             Collector.authenticated = true
-            m.route.set('/tag')
+            Tag.reset()
         }).catch(function (err) {
             Collector.authenticated = false
+            m.route.set('/')
         })
     }
 }

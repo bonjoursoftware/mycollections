@@ -2,7 +2,7 @@ var m = require('mithril')
 var Collector = require('../models/Collector')
 
 module.exports = {
-    oninit: Collector.reset,
+    oninit: Collector.isAuthenticated,
     view: function () {
         return m('form', {
             onsubmit: function (e) {

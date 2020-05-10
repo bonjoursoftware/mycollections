@@ -7,7 +7,7 @@ module.exports = {
         return m('div', {class: 'tabs'}, [
             m('ul', Collector.authenticated ? [
                 m('li', {
-                    class: Tab.active.name === 'tag' ? 'is-active' : '', onclick: function () {
+                    class: Tab.isTagActive() ? 'is-active' : '', onclick: function () {
                         Tab.select('tag')
                     }
                 }, [
@@ -17,7 +17,7 @@ module.exports = {
                     ])
                 ]),
                 m('li', {
-                    class: Tab.active.name === 'item' ? 'is-active' : '', onclick: function () {
+                    class: Tab.isItemActive() ? 'is-active' : '', onclick: function () {
                         Tab.select('item')
                     }
                 }, [
