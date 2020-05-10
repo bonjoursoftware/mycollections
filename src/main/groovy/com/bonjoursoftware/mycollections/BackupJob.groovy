@@ -44,7 +44,7 @@ class BackupJob {
     @Inject
     private NotificationService notificationService
 
-    @Scheduled(initialDelay = '1m', fixedDelay = '24h')
+    @Scheduled(initialDelay = '10m', fixedDelay = '24h')
     void backup() {
         notificationService.notify(BACKUP_NOTIFICATION_TITLE, buildBackup())
     }
