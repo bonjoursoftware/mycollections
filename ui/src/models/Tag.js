@@ -23,7 +23,7 @@ var Tag = {
         Tag.item = []
         return m.request({
             method: 'GET',
-            url: '/api/v1/tag/' + tagName,
+            url: '/api/v1/tag/' + encodeURIComponent(tagName),
             headers: { 'Authorization': 'Basic ' + localStorage.getItem('basicauth') },
             withCredentials: true
         }).then(function (result) {

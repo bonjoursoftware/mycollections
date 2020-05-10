@@ -14,7 +14,7 @@ var Item = {
     load: function (id) {
         return m.request({
             method: 'GET',
-            url: '/api/v1/item/' + id,
+            url: '/api/v1/item/' + encodeURIComponent(id),
             headers: {'Authorization': 'Basic ' + localStorage.getItem('basicauth')},
             withCredentials: true
         }).then(function (result) {

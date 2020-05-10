@@ -13,7 +13,7 @@ module.exports = {
             m('aside', {class: 'menu'}, [
                 m('ul', {class: 'menu-list'}, Tag.list.map(function (tag) {
                     return m('li', [
-                        m('a', {href: '/#!/tag/' + tag}, tag)
+                        m('a', {href: '/#!/tag/' + encodeURIComponent(tag)}, tag)
                     ])
                 }))
             ]),
