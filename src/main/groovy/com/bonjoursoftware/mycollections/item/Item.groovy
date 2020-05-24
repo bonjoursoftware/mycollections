@@ -36,5 +36,6 @@ class Item {
     @JsonDeserialize(converter = StringToObjectIdConverter)
     ObjectId id
     String name
+    String notes
     List<String> tags
 }

@@ -21,13 +21,22 @@ module.exports = {
                     })
                 }
             }, [
-                m('div', {class: 'field is-grouped'}, [
-                    m('p', {class: 'control is-expanded'}, [
+                m('div', {class: 'field'}, [
+                    m('p', {class: 'control'}, [
                         m('input.input[type=text]', {class: 'is-hidden', disabled: true, value: Item.current.id}),
                         m('input.input[type=text][placeholder=Name]', {
                             oninput: function (e) {
                                 Item.current.name = e.target.value
                             }, value: Item.current.name
+                        })
+                    ]),
+                ]),
+                m('div', {class: 'field is-grouped'}, [
+                    m('p', {class: 'control is-expanded'}, [
+                        m('input.input[type=text][placeholder=Notes]', {
+                            oninput: function (e) {
+                                Item.current.notes = e.target.value
+                            }, value: Item.current.notes
                         })
                     ]),
                     m('p', {class: 'control'}, [
