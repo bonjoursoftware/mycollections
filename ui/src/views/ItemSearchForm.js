@@ -8,7 +8,8 @@ module.exports = {
             m('form', {
                 onsubmit: function (e) {
                     e.preventDefault()
-                    ItemSearch.findByName(ItemSearch.search.itemName)
+                    if (!ItemSearch.nameIsEmpty())
+                        ItemSearch.findByName(ItemSearch.search.itemName)
                 }
             }, [
                 m('div', {class: 'field is-grouped'}, [
@@ -25,6 +26,15 @@ module.exports = {
                             class: 'button is-success',
                             disabled: ItemSearch.nameIsEmpty()
                         }, 'Search')
+                    ]),
+                    m('p', {class: 'control', type: 'reset'}, [
+                        m('button', {
+                            class: 'button is-danger',
+                            disabled: ItemSearch.nameIsEmpty(),
+                            onclick: function () {
+                                ItemSearch.reset()
+                            }
+                        }, 'Reset')
                     ]),
                 ]),
             ]),
