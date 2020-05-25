@@ -23,6 +23,7 @@
  */
 package com.bonjoursoftware.mycollections.collector
 
+import com.bonjoursoftware.mycollections.notification.NotificationService
 import groovy.transform.CompileStatic
 import io.micronaut.security.authentication.AuthenticationFailed
 import io.micronaut.security.authentication.AuthenticationProvider
@@ -39,14 +40,20 @@ import javax.inject.Singleton
 @Singleton
 class CollectorAuthentication implements AuthenticationProvider {
 
+    private static final String AUTH_FAILURE = 'Authentication failure'
+
     @Inject
     private CollectorRepository collectorRepository
+
+    @Inject
+    private NotificationService notificationService
 
     @Override
     Publisher<AuthenticationResponse> authenticate(AuthenticationRequest authenticationRequest) {
         if (collectorRepository.exists(authenticationRequest.identity as String, authenticationRequest.secret as String)) {
             return Flowable.just(new UserDetails((String) authenticationRequest.identity, [])) as Flowable<AuthenticationResponse>
         } else {
+            notificationService.notify(AUTH_FAILURE, "Authentication failure for the following idendity: ${authenticationRequest.identity}")
             Flowable.just(new AuthenticationFailed()) as Flowable<AuthenticationResponse>
         }
     }
