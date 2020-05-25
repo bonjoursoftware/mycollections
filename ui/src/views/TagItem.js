@@ -14,7 +14,7 @@ module.exports = {
                             Tag.reset()
                         }
                     }, 'Tags')]),
-                    m('li', {class: 'is-active'}, [m('a', {href: '#', 'aria-current': 'page'}, Tag.current)])
+                    m('li', {class: 'is-active'}, [m('a', {href: '#', 'aria-current': 'page'}, `${Tag.current} (${Tag.item.length})`)])
                 ])
             ]),
             m('aside', {class: 'menu'}, [
