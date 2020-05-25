@@ -31,6 +31,7 @@ class ItemControllerTest extends Specification {
     private static final String A_COLLECTOR = 'collector'
     private static final Item AN_ITEM = new Item(name: 'an item')
     private static final String AN_ID = 'an id'
+    private static final String A_NAME = 'a name'
 
     private Authentication authentication
     private ItemController itemController
@@ -58,6 +59,14 @@ class ItemControllerTest extends Specification {
 
         then:
         1 * itemRepository.findByIdAndCollector(AN_ID, A_COLLECTOR)
+    }
+
+    def 'Find by name and collector delegates to item repository'() {
+        when:
+        itemController.findByNameAndCollector(A_NAME, authentication)
+
+        then:
+        1 * itemRepository.findByNameAndCollector(A_NAME, A_COLLECTOR)
     }
 
     def 'Upsert item delegates to item repository'() {

@@ -11,6 +11,10 @@ var Tab = {
 
     isItemActive: function () {
         return m.route.get().startsWith('/item')
+    },
+
+    isSearchActive: function () {
+        return m.route.get().startsWith('/search')
     }
 }
 

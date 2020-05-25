@@ -32,12 +32,15 @@ import org.bson.conversions.Bson
 import javax.inject.Singleton
 
 import static com.mongodb.client.model.Filters.eq
+import static com.mongodb.client.model.Filters.regex
 
 @CompileStatic
 @Singleton
 class ItemRepository implements MongoRepository {
 
     private static final String ID_FIELD = '_id'
+    private static final String NAME_FIELD = 'name'
+    private static final String TEXT_SEARCH_OPTIONS = 'i'
 
     private StringToObjectIdConverter oidConverter = new StringToObjectIdConverter()
 
@@ -47,6 +50,10 @@ class ItemRepository implements MongoRepository {
 
     Item findByIdAndCollector(String id, String collector) {
         collection(collector).find(byId(id)).first()
+    }
+
+    List<Item> findByNameAndCollector(String name, String collector) {
+        collection(collector).find(byName(name)).asList()
     }
 
     void upsert(Item item, String collector) {
@@ -71,6 +78,10 @@ class ItemRepository implements MongoRepository {
 
     private Bson byId(Item item) {
         eq(ID_FIELD, item.id)
+    }
+
+    private Bson byName(String name) {
+        regex(NAME_FIELD, name, TEXT_SEARCH_OPTIONS)
     }
 
     private MongoCollection<Item> collection(String collector) {

@@ -55,6 +55,11 @@ class ItemController {
         itemRepository.findByIdAndCollector(id, getUsername(authentication))
     }
 
+    @Get('/name/{name}')
+    List<Item> findByNameAndCollector(@QueryValue('name') String name, Authentication authentication) {
+        itemRepository.findByNameAndCollector(name, getUsername(authentication))
+    }
+
     @Post
     void upsert(Item item, Authentication authentication) {
         item.tap { tags = tags?.collect { it.trim() } }

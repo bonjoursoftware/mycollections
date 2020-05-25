@@ -6,6 +6,7 @@ var TagList = require('./views/TagList')
 var TagItem = require('./views/TagItem')
 var ItemForm = require('./views/ItemForm')
 var CollectorForm = require('./views/CollectorForm')
+var ItemSearchForm = require('./views/ItemSearchForm')
 
 var collector = document.getElementById('collector')
 m.mount(collector, CollectorForm)
@@ -20,4 +21,5 @@ m.route(mycollections, '/', {
     '/tag/:name': TagItem,
     '/item': ItemForm,
     '/item/:id': ItemForm,
+    '/search': ItemSearchForm,
 })

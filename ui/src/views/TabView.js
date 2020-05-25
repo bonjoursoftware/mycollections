@@ -25,6 +25,16 @@ module.exports = {
                         m('span', {class: 'icon is-small'}, [m('i', {class: 'fas fa-edit'})]),
                         m('span', 'Item')
                     ])
+                ]),
+                m('li', {
+                    class: Tab.isSearchActive() ? 'is-active' : '', onclick: function () {
+                        Tab.select('search')
+                    }
+                }, [
+                    m('a', [
+                        m('span', {class: 'icon is-small'}, [m('i', {class: 'fas fa-search'})]),
+                        m('span', 'Search')
+                    ])
                 ])
             ] : [])
         ])
