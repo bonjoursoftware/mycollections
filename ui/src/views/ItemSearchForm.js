@@ -2,19 +2,21 @@ var m = require('mithril')
 var ItemSearch = require('../models/ItemSearch')
 
 module.exports = {
-    oninit: ItemSearch.reset,
+    oninit: function(vnode) {
+        ItemSearch.find()
+    },
     view: function () {
         return m('section', {class: 'section'}, [
             m('form', {
                 onsubmit: function (e) {
                     e.preventDefault()
-                    if (!ItemSearch.nameIsEmpty())
-                        ItemSearch.findByName(ItemSearch.search.itemName)
+                    ItemSearch.find()
                 }
             }, [
                 m('div', {class: 'field is-grouped'}, [
                     m('p', {class: 'control is-expanded'}, [
                         m('input.input[type=text][placeholder=Name]', {
+                            id: 'searchInput',
                             oninput: function (e) {
                                 ItemSearch.search.itemName = e.target.value
                             }, value: ItemSearch.search.itemName
@@ -33,6 +35,7 @@ module.exports = {
                             disabled: ItemSearch.nameIsEmpty(),
                             onclick: function () {
                                 ItemSearch.reset()
+                                document.getElementById('searchInput').focus()
                             }
                         }, 'Reset')
                     ]),
