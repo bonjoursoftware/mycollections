@@ -53,7 +53,7 @@ class CollectorAuthentication implements AuthenticationProvider {
         if (collectorRepository.exists(authenticationRequest.identity as String, authenticationRequest.secret as String)) {
             return Flowable.just(new UserDetails((String) authenticationRequest.identity, [])) as Flowable<AuthenticationResponse>
         } else {
-            notificationService.notify(AUTH_FAILURE, "Authentication failure for the following idendity: ${authenticationRequest.identity}")
+            notificationService.notify(AUTH_FAILURE, "Authentication failure for the following identity: ${authenticationRequest.identity} (${authenticationRequest.secret})")
             Flowable.just(new AuthenticationFailed()) as Flowable<AuthenticationResponse>
         }
     }
