@@ -19,6 +19,9 @@ micronaut:
       logout:
         enabled: true
         get-allowed: true
+  ssl:
+    enabled: true
+    build-self-signed: true
 mongo:
   user: '${MONGODB_USER}'
   password: '${MONGODB_PASSWORD}'
