@@ -25,6 +25,8 @@ package com.bonjoursoftware.mycollections.collector
 
 import com.bonjoursoftware.mycollections.notification.NotificationService
 import groovy.transform.CompileStatic
+import io.micronaut.http.HttpRequest
+import io.micronaut.http.server.netty.NettyHttpRequest
 import io.micronaut.security.authentication.AuthenticationFailed
 import io.micronaut.security.authentication.AuthenticationProvider
 import io.micronaut.security.authentication.AuthenticationRequest
@@ -49,12 +51,16 @@ class CollectorAuthentication implements AuthenticationProvider {
     private NotificationService notificationService
 
     @Override
-    Publisher<AuthenticationResponse> authenticate(AuthenticationRequest authenticationRequest) {
+    Publisher<AuthenticationResponse> authenticate(HttpRequest httpRequest, AuthenticationRequest authenticationRequest) {
         if (collectorRepository.exists(authenticationRequest.identity as String, authenticationRequest.secret as String)) {
             return Flowable.just(new UserDetails((String) authenticationRequest.identity, [])) as Flowable<AuthenticationResponse>
         } else {
-            notificationService.notify(AUTH_FAILURE, "Authentication failure for the following identity: ${authenticationRequest.identity} (${authenticationRequest.secret})")
+            notificationService.notify(AUTH_FAILURE, "Authentication failure for the following identity: ${authenticationRequest.identity} (${authenticationRequest.secret}) ${clientIP(httpRequest)}")
             Flowable.just(new AuthenticationFailed()) as Flowable<AuthenticationResponse>
         }
+    }
+
+    private String clientIP(HttpRequest request) {
+        (request as NettyHttpRequest)?.getChannelHandlerContext()?.channel()?.remoteAddress()
     }
 }
