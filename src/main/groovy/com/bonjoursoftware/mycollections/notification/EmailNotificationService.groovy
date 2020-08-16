@@ -38,27 +38,32 @@ import javax.inject.Singleton
 class EmailNotificationService implements NotificationService {
 
     private static final String ENDPOINT = 'mail/send'
-    private static final String SOURCE_NAME = 'MyCollections | Bonjour Software Limited'
-    private static final String CONTENT_TYPE = 'text/plain'
+    private static final String SOURCE_NAME = 'MyCollections'
+    private static final String CONTENT_TYPE = 'text/html'
 
     @Override
     void notify(String title, String body) {
         sendMail(title, body)
     }
 
-    private sendMail(String title, String body) {
-        new SendGrid(apiKey).api(buildRequest(title, body))
+    @Override
+    void notify(String title, String body, String recipient) {
+        sendMail(title, body, recipient)
     }
 
-    private Request buildRequest(String title, String body) {
+    private sendMail(String title, String body, String recipient = target) {
+        new SendGrid(apiKey).api(buildRequest(title, body, recipient))
+    }
+
+    private Request buildRequest(String title, String body, String recipient) {
         new Request().tap {
             setMethod(Method.POST)
             setEndpoint(ENDPOINT)
-            setBody(buildPayload(title, body))
+            setBody(buildPayload(title, body, recipient))
         }
     }
 
-    private String buildPayload(String title, String body) {
-        new Mail(new Email(name: SOURCE_NAME, email: source), title, new Email(target), new Content(CONTENT_TYPE, body)).build()
+    private String buildPayload(String title, String body, String recipient) {
+        new Mail(new Email(name: SOURCE_NAME, email: recipient), title, new Email(recipient), new Content(CONTENT_TYPE, body)).build()
     }
 }

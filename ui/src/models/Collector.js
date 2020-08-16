@@ -3,19 +3,27 @@ var Tag = require('./Tag')
 
 var Collector = {
     current: {},
+    loginRequestRegistered: false,
     authenticated: false,
 
     reset: function () {
         localStorage.clear()
         Collector.current = {}
         Collector.authenticated = false
+        Collector.loginRequestRegistered = false
         m.route.set('/')
     },
 
-    store: function () {
-        localStorage.setItem('username', Collector.current.username)
-        localStorage.setItem('basicauth', btoa(Collector.current.username + ':' + Collector.current.secret))
-        Collector.isAuthenticated()
+    requestLogin: function () {
+    Collector.loginRequestRegistered = true
+        return m.request({
+            method: 'GET',
+            url: '/api/v1/login/' + encodeURIComponent(Collector.current.username),
+            withCredentials: false
+        }).catch(function (err) {
+            Collector.authenticated = false
+            m.route.set('/')
+        })
     },
 
     isAuthenticated: function () {

@@ -21,13 +21,8 @@
  * along with this program. If not, see
  * https://github.com/bonjoursoftware/mycollections/blob/master/LICENSE
  */
-package com.bonjoursoftware.mycollections.notification
+package com.bonjoursoftware.mycollections.token
 
-trait NotificationService {
-    String apiKey
-    String target
-
-    abstract void notify(String title, String body)
-
-    abstract void notify(String title, String body, String recipient)
+trait TokenService {
+    abstract String generate()
 }

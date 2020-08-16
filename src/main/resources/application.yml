@@ -30,5 +30,8 @@ mongo:
 notification:
   type: 'email'
   apiKey: '${NOTIFICATION_API_KEY}'
-  source: '${NOTIFICATION_SOURCE}'
   target: '${NOTIFICATION_TARGET}'
+host:
+  domain: '${HOST_DOMAIN}'
+username:
+  allowed-suffixes: '${USERNAME_ALLOWED_SUFFIXES}'

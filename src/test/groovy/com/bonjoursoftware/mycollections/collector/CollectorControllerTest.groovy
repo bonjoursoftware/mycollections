@@ -21,13 +21,32 @@
  * along with this program. If not, see
  * https://github.com/bonjoursoftware/mycollections/blob/master/LICENSE
  */
-package com.bonjoursoftware.mycollections.notification
+package com.bonjoursoftware.mycollections.collector
 
-trait NotificationService {
-    String apiKey
-    String target
+import io.micronaut.security.authentication.Authentication
+import spock.lang.Specification
 
-    abstract void notify(String title, String body)
+class CollectorControllerTest extends Specification {
 
-    abstract void notify(String title, String body, String recipient)
+    private static final A_USERNAME = 'username'
+
+    private CollectorController collectorController
+    private CollectorRepository collectorRepository
+    private Authentication authentication
+
+    void setup() {
+        authentication = Mock(Authentication) {
+            getAttributes() >> [username: A_USERNAME]
+        }
+        collectorRepository = Mock()
+        collectorController = new CollectorController(collectorRepository: collectorRepository)
+    }
+
+    def 'Find by username delegates to repository'() {
+        when:
+        collectorController.findByUsername(authentication)
+
+        then:
+        1 * collectorRepository.findByUsername(A_USERNAME)
+    }
 }

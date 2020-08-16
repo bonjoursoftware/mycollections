@@ -21,13 +21,14 @@
  * along with this program. If not, see
  * https://github.com/bonjoursoftware/mycollections/blob/master/LICENSE
  */
-package com.bonjoursoftware.mycollections.notification
+package com.bonjoursoftware.mycollections.token
 
-trait NotificationService {
-    String apiKey
-    String target
+import spock.lang.Specification
 
-    abstract void notify(String title, String body)
+class TokenGeneratorTest extends Specification {
 
-    abstract void notify(String title, String body, String recipient)
+    def 'Generate random token'() {
+        expect:
+        new TokenGenerator().generate()
+    }
 }

@@ -25,7 +25,9 @@ package com.bonjoursoftware.mycollections.collector
 
 import com.bonjoursoftware.mycollections.mongo.MongoRepository
 import com.mongodb.client.MongoCollection
+import com.mongodb.client.model.ReplaceOptions
 import groovy.transform.CompileStatic
+import org.bson.conversions.Bson
 
 import javax.inject.Singleton
 
@@ -40,6 +42,8 @@ class CollectorRepository implements MongoRepository {
     private static final String USERNAME_FIELD = 'username'
     private static final String SECRET_FIELD = 'secret'
 
+    private static final ReplaceOptions createIfNotExists = new ReplaceOptions().upsert(true)
+
     Boolean exists(String username, String secret) {
         collection().find(and(eq(USERNAME_FIELD, username), eq(SECRET_FIELD, secret))).first()
     }
@@ -50,6 +54,14 @@ class CollectorRepository implements MongoRepository {
 
     List<Collector> findAll() {
         collection().find().asList()
+    }
+
+    void upsert(Collector collector) {
+        collection().replaceOne(byUsername(collector.username), collector, createIfNotExists)
+    }
+
+    private Bson byUsername(String username) {
+        eq(USERNAME_FIELD, username)
     }
 
     private MongoCollection<Collector> collection() {

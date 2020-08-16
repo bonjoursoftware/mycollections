@@ -21,13 +21,24 @@
  * along with this program. If not, see
  * https://github.com/bonjoursoftware/mycollections/blob/master/LICENSE
  */
-package com.bonjoursoftware.mycollections.notification
+package com.bonjoursoftware.mycollections.token
 
-trait NotificationService {
-    String apiKey
-    String target
+import groovy.transform.CompileStatic
 
-    abstract void notify(String title, String body)
+import javax.inject.Singleton
+import java.security.SecureRandom
 
-    abstract void notify(String title, String body, String recipient)
+@CompileStatic
+@Singleton
+class TokenGenerator implements TokenService {
+
+    private SecureRandom secureRandom = SecureRandom.getInstanceStrong()
+    private Base64.Encoder b64Encoder = Base64.getUrlEncoder().withoutPadding()
+
+    @Override
+    String generate() {
+        def bytes = new byte[64]
+        secureRandom.nextBytes(bytes)
+        b64Encoder.encodeToString(bytes)
+    }
 }
