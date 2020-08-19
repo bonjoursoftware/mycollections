@@ -15,7 +15,7 @@ var Collector = {
     },
 
     requestLogin: function () {
-    Collector.loginRequestRegistered = true
+        Collector.loginRequestRegistered = true
         return m.request({
             method: 'GET',
             url: '/api/v1/login/' + encodeURIComponent(Collector.current.username),
@@ -37,8 +37,7 @@ var Collector = {
             Collector.authenticated = true
             Tag.reset()
         }).catch(function (err) {
-            Collector.authenticated = false
-            m.route.set('/')
+            Collector.reset()
         })
     }
 }
