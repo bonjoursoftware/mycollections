@@ -26,6 +26,7 @@ package com.bonjoursoftware.mycollections.login
 import com.bonjoursoftware.mycollections.collector.Collector
 import com.bonjoursoftware.mycollections.collector.CollectorRepository
 import com.bonjoursoftware.mycollections.notification.NotificationService
+import com.bonjoursoftware.mycollections.token.Token
 import com.bonjoursoftware.mycollections.token.TokenService
 import spock.lang.Specification
 
@@ -33,8 +34,8 @@ class LoginServiceTest extends Specification {
 
     private static final String A_USERNAME = 'username@domain.com'
     private static final String A_FRIENDLYNAME = 'username'
-    private static final String A_TOKEN = 'token'
     private static final String A_HOST_DOMAIN = 'domain'
+    private static final Token A_TOKEN = new Token(secret: 'a secret/', hash: 'a hash')
 
     private LoginService loginService
     private CollectorRepository collectorRepository
@@ -61,12 +62,12 @@ class LoginServiceTest extends Specification {
         then:
         1 * collectorRepository.upsert({ Collector collector ->
             collector.username == A_USERNAME
-                    && collector.secret == A_TOKEN
+                    && collector.hash == A_TOKEN.hash
                     && collector.friendlyname == A_FRIENDLYNAME
         })
         1 * notificationService.notify(
                 'MyCollections Login Link',
-                { String body -> body.contains("${A_HOST_DOMAIN}/#!/login/${A_USERNAME}/${A_TOKEN}") },
+                { String body -> body.contains("${A_HOST_DOMAIN}/#!/login/username%40domain.com/a+secret%2F") },
                 A_USERNAME)
     }
 }

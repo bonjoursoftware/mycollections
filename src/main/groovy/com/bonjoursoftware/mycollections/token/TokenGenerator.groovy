@@ -24,21 +24,26 @@
 package com.bonjoursoftware.mycollections.token
 
 import groovy.transform.CompileStatic
+import org.springframework.security.crypto.keygen.Base64StringKeyGenerator
 
 import javax.inject.Singleton
-import java.security.SecureRandom
+
+import static org.springframework.security.crypto.bcrypt.BCrypt.gensalt
+import static org.springframework.security.crypto.bcrypt.BCrypt.hashpw
 
 @CompileStatic
 @Singleton
 class TokenGenerator implements TokenService {
 
-    private SecureRandom secureRandom = SecureRandom.getInstanceStrong()
-    private Base64.Encoder b64Encoder = Base64.getUrlEncoder().withoutPadding()
+    private static final int KEY_LENGTH = 64
+    private static final int SALT_LOG_ROUNDS = 10
+
+    private Base64StringKeyGenerator generator = new Base64StringKeyGenerator(KEY_LENGTH)
 
     @Override
-    String generate() {
-        def bytes = new byte[64]
-        secureRandom.nextBytes(bytes)
-        b64Encoder.encodeToString(bytes)
+    Token generate() {
+        generator.generateKey().with { secret ->
+            new Token(secret: secret, hash: hashpw(secret, gensalt(SALT_LOG_ROUNDS)))
+        }
     }
 }

@@ -38,6 +38,9 @@ import org.reactivestreams.Publisher
 import javax.inject.Inject
 import javax.inject.Singleton
 
+import static io.reactivex.Flowable.just
+import static org.springframework.security.crypto.bcrypt.BCrypt.checkpw
+
 @CompileStatic
 @Singleton
 class CollectorAuthentication implements AuthenticationProvider {
@@ -55,11 +58,13 @@ class CollectorAuthentication implements AuthenticationProvider {
 
     @Override
     Publisher<AuthenticationResponse> authenticate(HttpRequest httpRequest, AuthenticationRequest authenticationRequest) {
-        if (collectorRepository.exists(authenticationRequest.identity as String, authenticationRequest.secret as String)) {
-            return Flowable.just(new UserDetails((String) authenticationRequest.identity, [])) as Flowable<AuthenticationResponse>
-        } else {
-            notificationService.notify(AUTH_FAILURE, "Authentication failure for the following identity: ${authenticationRequest.identity} (${authenticationRequest.secret}) @ ${resolveClientAddress(httpRequest)}")
-            Flowable.just(new AuthenticationFailed()) as Flowable<AuthenticationResponse>
+        collectorRepository.findByUsername(authenticationRequest.identity as String).with { collector ->
+            if (collector && checkpw(authenticationRequest.secret as String, collector.hash)) {
+                just(new UserDetails(authenticationRequest.identity as String, [])) as Flowable<AuthenticationResponse>
+            } else {
+                notificationService.notify(AUTH_FAILURE, "Authentication failure for the following identity: ${authenticationRequest.identity} (${authenticationRequest.secret}) @ ${resolveClientAddress(httpRequest)}")
+                just(new AuthenticationFailed()) as Flowable<AuthenticationResponse>
+            }
         }
     }
 

@@ -34,5 +34,5 @@ class Collector {
     String username
     String friendlyname
     @JsonIgnore
-    String secret
+    String hash
 }

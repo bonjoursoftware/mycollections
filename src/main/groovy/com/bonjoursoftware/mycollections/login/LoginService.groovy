@@ -33,6 +33,8 @@ import io.micronaut.context.annotation.Property
 import javax.inject.Inject
 import javax.inject.Singleton
 
+import static java.net.URLEncoder.encode
+
 @CompileStatic
 @Singleton
 class LoginService {
@@ -41,6 +43,7 @@ class LoginService {
     private static final String LOGIN_LINK_TITLE = 'MyCollections Login Link'
     private static final String LOGIN_LINK_PLACEHOLDER = 'loginLinkPlaceholder'
     private static final String USERNAME_PLACEHOLDER = 'usernamePlaceholder'
+    private static final String URL_ENCODE_CHARSET = 'UTF-8'
 
     @Inject
     private CollectorRepository collectorRepository
@@ -55,13 +58,14 @@ class LoginService {
     private String hostDomain
 
     void request(String username) {
-        def secret = tokenService.generate()
-        collectorRepository.upsert(buildCollector(username, secret))
-        notificationService.notify(LOGIN_LINK_TITLE, loginBody(username, secret), username)
+        tokenService.generate().with { token ->
+            collectorRepository.upsert(buildCollector(username, token.hash))
+            notificationService.notify(LOGIN_LINK_TITLE, loginBody(username, token.secret), username)
+        }
     }
 
-    private Collector buildCollector(String username, String secret) {
-        new Collector(username: username, friendlyname: resolveFriendlyName(username), secret: secret)
+    private Collector buildCollector(String username, String hash) {
+        new Collector(username: username, friendlyname: resolveFriendlyName(username), hash: hash)
     }
 
     private String resolveFriendlyName(String username) {
@@ -69,11 +73,17 @@ class LoginService {
     }
 
     private String loginBody(String username, String secret) {
-        LOGIN_BODY_TEMPLATE.replace(LOGIN_LINK_PLACEHOLDER, loginLink(username, secret)).replace(USERNAME_PLACEHOLDER, username)
+        LOGIN_BODY_TEMPLATE
+                .replace(LOGIN_LINK_PLACEHOLDER, loginLink(username, secret))
+                .replace(USERNAME_PLACEHOLDER, username)
     }
 
     private String loginLink(String username, String secret) {
-        "${hostDomain}/#!/login/${username}/${secret}"
+        "${hostDomain}/#!/login/${urlEncode(username)}/${urlEncode(secret)}"
+    }
+
+    private static final String urlEncode(String input) {
+        encode(input, URL_ENCODE_CHARSET)
     }
 
     private static final String LOGIN_BODY_TEMPLATE = '''<!DOCTYPE html>

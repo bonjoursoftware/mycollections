@@ -24,5 +24,5 @@
 package com.bonjoursoftware.mycollections.token
 
 trait TokenService {
-    abstract String generate()
+    abstract Token generate()
 }

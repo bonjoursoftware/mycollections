@@ -25,10 +25,14 @@ package com.bonjoursoftware.mycollections.token
 
 import spock.lang.Specification
 
+import static org.springframework.security.crypto.bcrypt.BCrypt.checkpw
+
 class TokenGeneratorTest extends Specification {
 
     def 'Generate random token'() {
         expect:
-        new TokenGenerator().generate()
+        with(new TokenGenerator().generate()) {
+            checkpw(secret, hash)
+        }
     }
 }
