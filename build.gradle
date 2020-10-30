@@ -4,7 +4,7 @@ plugins {
     id 'application'
 }
 
-version '1.2.2'
+version '1.2.3'
 group 'com.bonjoursoftware'
 
 repositories {
