@@ -27,11 +27,15 @@ import com.sendgrid.Method
 import com.sendgrid.Request
 import com.sendgrid.SendGrid
 import com.sendgrid.helpers.mail.Mail
+import com.sendgrid.helpers.mail.objects.Attachments
 import com.sendgrid.helpers.mail.objects.Content
 import com.sendgrid.helpers.mail.objects.Email
 import groovy.transform.CompileStatic
 
 import javax.inject.Singleton
+
+import static java.time.LocalDate.now
+import static java.util.Base64.encoder
 
 @CompileStatic
 @Singleton
@@ -39,7 +43,13 @@ class EmailNotificationService implements NotificationService {
 
     private static final String ENDPOINT = 'mail/send'
     private static final String SOURCE_NAME = 'MyCollections'
-    private static final String CONTENT_TYPE = 'text/html'
+    private static final String HTML_CONTENT_TYPE = 'text/html'
+    private static final String CHARSET = 'UTF-8'
+    private static final String ATTACHMENT_EXTENSION = 'json'
+    private static final String ATTACHMENT_DISPOSITION = 'attachment'
+    private static final String JSON_CONTENT_TYPE = 'application/json'
+
+    private static final int MAX_BODY_LENGTH = 4096
 
     @Override
     void notify(String title, String body) {
@@ -64,6 +74,22 @@ class EmailNotificationService implements NotificationService {
     }
 
     private String buildPayload(String title, String body, String recipient) {
-        new Mail(new Email(name: SOURCE_NAME, email: recipient), title, new Email(recipient), new Content(CONTENT_TYPE, body)).build()
+        body.size() < MAX_BODY_LENGTH ? buildPayloadWithBody(title, body, recipient) : buildPayloadWithAttachment(title, body, recipient)
+    }
+
+    private String buildPayloadWithBody(String title, String body, String recipient) {
+        new Mail(new Email(name: SOURCE_NAME, email: recipient), title, new Email(recipient), new Content(HTML_CONTENT_TYPE, body)).build()
+    }
+
+    private String buildPayloadWithAttachment(String title, String body, String recipient) {
+        new Mail(new Email(name: SOURCE_NAME, email: recipient), title, new Email(recipient), new Content(HTML_CONTENT_TYPE, title)).tap {
+            addAttachments(new Attachments().tap {
+                setContent(getEncoder().encodeToString(body.getBytes(CHARSET)))
+                setContentId(title)
+                setDisposition(ATTACHMENT_DISPOSITION)
+                setFilename("${title.toLowerCase().replace(' ', '_')}_${now().toString()}.${ATTACHMENT_EXTENSION}")
+                setType(JSON_CONTENT_TYPE)
+            })
+        }.build()
     }
 }
