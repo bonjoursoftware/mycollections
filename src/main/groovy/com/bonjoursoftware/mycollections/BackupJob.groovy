@@ -32,6 +32,8 @@ import io.micronaut.scheduling.annotation.Scheduled
 import javax.inject.Inject
 import javax.inject.Singleton
 
+import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL
+
 @CompileStatic
 @Singleton
 class BackupJob {
@@ -50,6 +52,8 @@ class BackupJob {
     }
 
     private String buildBackup() {
-        new ObjectMapper().writeValueAsString(exportService.run())
+        new ObjectMapper()
+                .setSerializationInclusion(NON_NULL)
+                .writeValueAsString(exportService.run())
     }
 }
