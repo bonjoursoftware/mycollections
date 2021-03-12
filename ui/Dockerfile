@@ -1,4 +1,4 @@
-FROM node:13.10.1-stretch-slim as ui-builder
+FROM node:15-buster-slim as ui-builder
 WORKDIR /app
 COPY package.json .
 COPY package-lock.json .

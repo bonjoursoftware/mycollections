@@ -1,4 +1,4 @@
-FROM arm32v7/adoptopenjdk:14.0.2_8-jdk-hotspot-bionic
+FROM arm32v7/adoptopenjdk:15-jdk-hotspot-focal
 WORKDIR /home/mycollections
 COPY build/libs/*.jar ./mycollections.jar
 EXPOSE 8443

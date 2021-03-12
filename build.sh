@@ -1,9 +1,9 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
 echo '\n====\nBuilding the user interface...'
-cd ./ui
+pushd ui
 ./build.sh
+popd
 
 echo '\n====\nBuilding the application...'
-cd ../
-./gradlew clean shadowJar
+docker build -t bonjoursoftware/mycollections:local .
