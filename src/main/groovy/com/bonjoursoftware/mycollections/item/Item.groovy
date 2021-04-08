@@ -37,5 +37,6 @@ class Item {
     ObjectId id
     String name
     String notes
+    String ref
     List<String> tags
 }

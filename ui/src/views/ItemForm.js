@@ -56,6 +56,14 @@ module.exports = {
                         }, 'Delete')
                     ]),
                 ]),
+                m('div', {class: Item.hasRef() ? 'field' : 'is-hidden'}, [
+                    m('p', {class: 'control'}, [
+                        m('a', {class: 'button is-primary', href: Item.current.ref, target: '_blank', disabled: !Item.hasRef()}, [
+                            m('span', {class: 'icon'}, [m('i', {class: 'fas fa-film'})]),
+                            m('span', Item.hasRef() ? `${Item.current.ref}` : 'no-ref'),
+                        ]),
+                    ]),
+                ]),
                 m('div', {class: 'field'}, [
                     m('div', {class: 'tags are-medium'}, [
                         Tag.list.map(function (tag) {

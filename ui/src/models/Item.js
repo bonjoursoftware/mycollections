@@ -66,6 +66,10 @@ var Item = {
 
     exists: function () {
         return Item.current.id !== undefined
+    },
+
+    hasRef: function () {
+        return Item.current.ref !== undefined
     }
 }
 
