@@ -1,4 +1,4 @@
-FROM node:15-buster-slim as ui-builder
+FROM node:16-buster-slim as ui-builder
 WORKDIR /app
 COPY package.json .
 COPY package-lock.json .
