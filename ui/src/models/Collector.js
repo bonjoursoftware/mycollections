@@ -37,7 +37,7 @@ var Collector = {
             Collector.authenticated = true
             Tag.reset()
         }).catch(function (err) {
-            Collector.reset()
+            console.log('not authenticated')
         })
     }
 }
