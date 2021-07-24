@@ -58,7 +58,7 @@ module.exports = {
                 ]),
                 m('div', {class: Item.hasRef() ? 'field' : 'is-hidden'}, [
                     m('p', {class: 'control'}, [
-                        m('a', {class: 'button is-primary', href: Item.current.ref, target: '_blank', disabled: !Item.hasRef()}, [
+                        m('a', {class: 'button is-primary', href: Item.current.ref, rel: 'noopener noreferrer', target: '_blank', disabled: !Item.hasRef()}, [
                             m('span', {class: 'icon'}, [m('i', {class: 'fas fa-film'})]),
                             m('span', Item.hasRef() ? `${Item.current.ref}` : 'no-ref'),
                         ]),
