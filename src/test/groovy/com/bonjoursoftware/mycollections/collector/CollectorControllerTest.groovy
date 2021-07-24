@@ -30,23 +30,13 @@ class CollectorControllerTest extends Specification {
 
     private static final A_USERNAME = 'username'
 
-    private CollectorController collectorController
-    private CollectorRepository collectorRepository
     private Authentication authentication
 
-    void setup() {
-        authentication = Mock(Authentication) {
-            getAttributes() >> [username: A_USERNAME]
-        }
-        collectorRepository = Mock()
-        collectorController = new CollectorController(collectorRepository: collectorRepository)
-    }
+    def 'Get collector leverages Micronaut authentication'() {
+        given:
+        authentication = Mock(Authentication) { getAttributes() >> [username: A_USERNAME] }
 
-    def 'Find by username delegates to repository'() {
-        when:
-        collectorController.findByUsername(authentication)
-
-        then:
-        1 * collectorRepository.findByUsername(A_USERNAME)
+        expect:
+        new CollectorController().get(authentication) == new Collector(username: A_USERNAME)
     }
 }
