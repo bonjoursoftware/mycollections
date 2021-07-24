@@ -32,7 +32,7 @@ import io.micronaut.security.rules.SecurityRule
 
 import javax.inject.Inject
 
-import static com.bonjoursoftware.mycollections.collector.CollectorAuthenticationExtractor.getUsername
+import static com.bonjoursoftware.mycollections.collector.CollectorAuthenticationExtractor.getCollector
 
 @CompileStatic
 @Secured(SecurityRule.IS_AUTHENTICATED)
@@ -44,6 +44,6 @@ class CollectorController {
 
     @Get
     Collector findByUsername(Authentication authentication) {
-        collectorRepository.findByUsername(getUsername(authentication))
+        collectorRepository.findByUsername(getCollector(authentication).username)
     }
 }

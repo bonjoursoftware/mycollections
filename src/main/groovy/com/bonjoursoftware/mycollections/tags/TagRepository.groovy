@@ -23,6 +23,7 @@
  */
 package com.bonjoursoftware.mycollections.tags
 
+import com.bonjoursoftware.mycollections.collector.Collector
 import com.bonjoursoftware.mycollections.item.Item
 import com.bonjoursoftware.mycollections.mongo.MongoRepository
 import com.mongodb.client.MongoCollection
@@ -36,19 +37,19 @@ import static com.mongodb.client.model.Filters.eq
 @Singleton
 class TagRepository implements MongoRepository {
 
-    List<Tag> findByCollector(String collector) {
+    List<Tag> findByCollector(Collector collector) {
         tagCollection(collector).distinct(TAGS_FIELD, String).asList().collect { new Tag(name: it) }
     }
 
-    List<Item> findByTagAndCollector(String tag, String collector) {
+    List<Item> findByTagAndCollector(String tag, Collector collector) {
         itemCollection(collector).find(eq(TAGS_FIELD, tag)).asList()
     }
 
-    private MongoCollection tagCollection(String collector) {
-        db().getCollection(collector, String)
+    private MongoCollection tagCollection(Collector collector) {
+        db().getCollection(collector.username, String)
     }
 
-    private MongoCollection<Item> itemCollection(String collector) {
-        db().getCollection(collector, Item)
+    private MongoCollection<Item> itemCollection(Collector collector) {
+        db().getCollection(collector.username, Item)
     }
 }

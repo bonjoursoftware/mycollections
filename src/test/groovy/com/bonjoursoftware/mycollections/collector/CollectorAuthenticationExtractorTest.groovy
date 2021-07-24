@@ -32,7 +32,7 @@ class CollectorAuthenticationExtractorTest extends Specification {
 
     def 'Throws an exception when no collector is authenticated'() {
         when:
-        CollectorAuthenticationExtractor.getUsername(null)
+        CollectorAuthenticationExtractor.getCollector(null)
 
         then:
         thrown(CollectorAuthenticationExtractor.UnknownCollectorException)
@@ -45,19 +45,19 @@ class CollectorAuthenticationExtractorTest extends Specification {
         }
 
         when:
-        CollectorAuthenticationExtractor.getUsername(authentication)
+        CollectorAuthenticationExtractor.getCollector(authentication)
 
         then:
         thrown(CollectorAuthenticationExtractor.UnknownCollectorException)
     }
 
-    def 'Returns collector username when collector is authenticated and their username is known'() {
+    def 'Returns collector when collector is authenticated and their username is known'() {
         given:
         def authentication = Mock(Authentication) {
             getAttributes() >> [username: COLLECTOR_EMAIL]
         }
 
         expect:
-        CollectorAuthenticationExtractor.getUsername(authentication) == COLLECTOR_EMAIL
+        CollectorAuthenticationExtractor.getCollector(authentication) == new Collector(username: COLLECTOR_EMAIL)
     }
 }

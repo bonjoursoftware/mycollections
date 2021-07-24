@@ -34,7 +34,7 @@ import io.micronaut.security.rules.SecurityRule
 
 import javax.inject.Inject
 
-import static com.bonjoursoftware.mycollections.collector.CollectorAuthenticationExtractor.getUsername
+import static com.bonjoursoftware.mycollections.collector.CollectorAuthenticationExtractor.getCollector
 
 @CompileStatic
 @Secured(SecurityRule.IS_AUTHENTICATED)
@@ -46,11 +46,11 @@ class TagController {
 
     @Get
     List<Tag> findByCollector(Authentication authentication) {
-        tagRepository.findByCollector(getUsername(authentication))
+        tagRepository.findByCollector(getCollector(authentication))
     }
 
     @Get('/{tag}')
     List<Item> findByTagAndCollector(@QueryValue('tag') String tag, Authentication authentication) {
-        tagRepository.findByTagAndCollector(tag, getUsername(authentication))
+        tagRepository.findByTagAndCollector(tag, getCollector(authentication))
     }
 }

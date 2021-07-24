@@ -29,9 +29,14 @@ class CollectorAuthenticationExtractor {
 
     private static final USERNAME_KEY = 'username'
 
-    static String getUsername(Authentication authentication) {
-        Optional.ofNullable(authentication?.getAttributes()?.get(USERNAME_KEY))
-                .orElseThrow({ new UnknownCollectorException() })
+    static Collector getCollector(Authentication authentication) {
+        Optional.ofNullable(toCollector(authentication)).orElseThrow({ new UnknownCollectorException() })
+    }
+
+    private static Collector toCollector(Authentication authentication) {
+        authentication?.getAttributes()?.get(USERNAME_KEY)?.with { username ->
+            new Collector(username: username)
+        }
     }
 
     static class UnknownCollectorException extends RuntimeException {
