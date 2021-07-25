@@ -29,7 +29,7 @@ import spock.lang.Specification
 
 class TagControllerTest extends Specification {
 
-    private static final Collector A_COLLECTOR = new Collector(username: 'collector')
+    private static final Collector A_COLLECTOR = new Collector(friendlyname: 'friend', roles: ['a-role'], username: 'collector')
     private static final String A_TAG = 'tag'
 
     private Authentication authentication
@@ -38,7 +38,7 @@ class TagControllerTest extends Specification {
 
     void setup() {
         authentication = Mock(Authentication) {
-            getAttributes() >> [username: A_COLLECTOR.username]
+            getAttributes() >> [friendlyname: A_COLLECTOR.friendlyname, roles: A_COLLECTOR.roles, username: A_COLLECTOR.username]
         }
         tagRepository = Mock()
         tagController = new TagController(tagRepository: tagRepository)

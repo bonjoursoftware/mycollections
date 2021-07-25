@@ -60,12 +60,16 @@ class CollectorAuthentication implements AuthenticationProvider {
     Publisher<AuthenticationResponse> authenticate(HttpRequest httpRequest, AuthenticationRequest authenticationRequest) {
         collectorRepository.findByUsername(authenticationRequest.identity as String).with { collector ->
             if (collector && checkpw(authenticationRequest.secret as String, collector.hash)) {
-                just(new UserDetails(authenticationRequest.identity as String, [])) as Flowable<AuthenticationResponse>
+                just(toUserDetails(collector)) as Flowable<AuthenticationResponse>
             } else {
                 notificationService.notify(AUTH_FAILURE, "Authentication failure for the following identity: ${authenticationRequest.identity} (${authenticationRequest.secret}) @ ${resolveClientAddress(httpRequest)}")
                 just(new AuthenticationFailed()) as Flowable<AuthenticationResponse>
             }
         }
+    }
+
+    private static UserDetails toUserDetails(Collector collector) {
+        new UserDetails(collector.username, collector.roles, [friendlyname: collector.friendlyname as Object])
     }
 
     private String resolveClientAddress(HttpRequest request) {
