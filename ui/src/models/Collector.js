@@ -34,6 +34,7 @@ var Collector = {
             withCredentials: true
         }).then(function (result) {
             localStorage.setItem('friendlyname', result.friendlyname)
+            localStorage.setItem('readonly', !result.roles.includes('write'))
             Collector.authenticated = true
             Tag.reset()
         }).catch(function (err) {

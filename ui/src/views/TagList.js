@@ -20,7 +20,9 @@ module.exports = {
                         m('a', {href: '/#!/tag/' + encodeURIComponent(tag)}, tag)
                     ])
                 }))
-            ]),
+            ]), localStorage.getItem('readonly') === 'true' ?
+            m('p')
+            :
             m('form', [
                 m('div', {class: 'field is-grouped'}, [
                     m('p', {class: 'control is-expanded'}, [
