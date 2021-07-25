@@ -48,6 +48,7 @@ module.exports = {
                     ]),
                     m('p', {class: 'control'}, [
                         m('button', {
+                            type: 'button',
                             class: Item.exists() ? 'button is-danger' : 'button is-danger is-hidden',
                             disabled: !Item.exists(),
                             onclick: function () {
