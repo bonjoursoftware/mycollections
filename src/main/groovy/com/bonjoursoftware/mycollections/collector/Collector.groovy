@@ -33,7 +33,7 @@ class Collector {
     ObjectId id
     String username
     String friendlyname
-    Set<String> roles = [CollectorRoles.READ]
+    Set<String> roles = []
     @JsonIgnore
     String hash
 }

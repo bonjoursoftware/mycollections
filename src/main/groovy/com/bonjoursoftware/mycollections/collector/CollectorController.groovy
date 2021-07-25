@@ -30,6 +30,8 @@ import io.micronaut.security.annotation.Secured
 import io.micronaut.security.authentication.Authentication
 import io.micronaut.security.rules.SecurityRule
 
+import javax.annotation.security.RolesAllowed
+
 import static com.bonjoursoftware.mycollections.collector.CollectorAuthenticationExtractor.getCollector
 
 @CompileStatic
@@ -38,6 +40,7 @@ import static com.bonjoursoftware.mycollections.collector.CollectorAuthenticatio
 class CollectorController {
 
     @Get
+    @RolesAllowed(CollectorRoles.READ)
     Collector get(Authentication authentication) {
         getCollector(authentication)
     }
