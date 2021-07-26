@@ -23,22 +23,7 @@
  */
 package com.bonjoursoftware.mycollections.collector
 
-import io.micronaut.security.authentication.Authentication
-import spock.lang.Specification
-
-class CollectorControllerTest extends Specification {
-
-    private static final Collector A_COLLECTOR = new Collector(friendlyname: 'friend', roles: ['a-role'], username: 'collector')
-
-    private Authentication authentication
-
-    def 'Get collector leverages Micronaut authentication'() {
-        given:
-        authentication = Mock(Authentication) {
-            getAttributes() >> [friendlyname: A_COLLECTOR.friendlyname, roles: A_COLLECTOR.roles, username: A_COLLECTOR.username]
-        }
-
-        expect:
-        new CollectorController().get(authentication) == A_COLLECTOR
-    }
+class CollectorRoles {
+    static final String READ = 'read'
+    static final String WRITE = 'write'
 }

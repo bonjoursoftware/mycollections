@@ -23,6 +23,7 @@
  */
 package com.bonjoursoftware.mycollections.tags
 
+import com.bonjoursoftware.mycollections.collector.CollectorRoles
 import com.bonjoursoftware.mycollections.item.Item
 import groovy.transform.CompileStatic
 import io.micronaut.http.annotation.Controller
@@ -32,9 +33,10 @@ import io.micronaut.security.annotation.Secured
 import io.micronaut.security.authentication.Authentication
 import io.micronaut.security.rules.SecurityRule
 
+import javax.annotation.security.RolesAllowed
 import javax.inject.Inject
 
-import static com.bonjoursoftware.mycollections.collector.CollectorAuthenticationExtractor.getUsername
+import static com.bonjoursoftware.mycollections.collector.CollectorAuthenticationExtractor.getCollector
 
 @CompileStatic
 @Secured(SecurityRule.IS_AUTHENTICATED)
@@ -45,12 +47,14 @@ class TagController {
     private TagRepository tagRepository
 
     @Get
+    @RolesAllowed(CollectorRoles.READ)
     List<Tag> findByCollector(Authentication authentication) {
-        tagRepository.findByCollector(getUsername(authentication))
+        tagRepository.findByCollector(getCollector(authentication))
     }
 
     @Get('/{tag}')
+    @RolesAllowed(CollectorRoles.READ)
     List<Item> findByTagAndCollector(@QueryValue('tag') String tag, Authentication authentication) {
-        tagRepository.findByTagAndCollector(tag, getUsername(authentication))
+        tagRepository.findByTagAndCollector(tag, getCollector(authentication))
     }
 }

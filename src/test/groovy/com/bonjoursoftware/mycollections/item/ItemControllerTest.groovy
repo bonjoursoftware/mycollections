@@ -23,12 +23,13 @@
  */
 package com.bonjoursoftware.mycollections.item
 
+import com.bonjoursoftware.mycollections.collector.Collector
 import io.micronaut.security.authentication.Authentication
 import spock.lang.Specification
 
 class ItemControllerTest extends Specification {
 
-    private static final String A_COLLECTOR = 'collector'
+    private static final Collector A_COLLECTOR = new Collector(friendlyname: 'friend', roles: ['a-role'], username: 'collector')
     private static final Item AN_ITEM = new Item(name: 'an item')
     private static final String AN_ID = 'an id'
     private static final String A_NAME = 'a name'
@@ -39,7 +40,7 @@ class ItemControllerTest extends Specification {
 
     void setup() {
         authentication = Mock(Authentication) {
-            getAttributes() >> [username: A_COLLECTOR]
+            getAttributes() >> [friendlyname: A_COLLECTOR.friendlyname, roles: A_COLLECTOR.roles, username: A_COLLECTOR.username]
         }
         itemRepository = Mock()
         itemController = new ItemController(itemRepository: itemRepository)

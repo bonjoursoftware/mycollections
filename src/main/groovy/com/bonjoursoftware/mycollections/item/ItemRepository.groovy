@@ -23,6 +23,7 @@
  */
 package com.bonjoursoftware.mycollections.item
 
+import com.bonjoursoftware.mycollections.collector.Collector
 import com.bonjoursoftware.mycollections.mongo.MongoRepository
 import com.bonjoursoftware.mycollections.mongo.StringToObjectIdConverter
 import com.mongodb.client.MongoCollection
@@ -44,31 +45,31 @@ class ItemRepository implements MongoRepository {
 
     private StringToObjectIdConverter oidConverter = new StringToObjectIdConverter()
 
-    List<Item> findByCollector(String collector) {
+    List<Item> findByCollector(Collector collector) {
         collection(collector).find().asList()
     }
 
-    Item findByIdAndCollector(String id, String collector) {
+    Item findByIdAndCollector(String id, Collector collector) {
         collection(collector).find(byId(id)).first()
     }
 
-    List<Item> findByNameAndCollector(String name, String collector) {
+    List<Item> findByNameAndCollector(String name, Collector collector) {
         collection(collector).find(byName(name)).asList()
     }
 
-    void upsert(Item item, String collector) {
+    void upsert(Item item, Collector collector) {
         item.id ? replace(item, collector) : create(item, collector)
     }
 
-    void delete(Item item, String collector) {
+    void delete(Item item, Collector collector) {
         collection(collector).deleteOne(byId(item))
     }
 
-    private void create(Item item, String collector) {
+    private void create(Item item, Collector collector) {
         collection(collector).insertOne(item)
     }
 
-    private void replace(Item item, String collector) {
+    private void replace(Item item, Collector collector) {
         collection(collector).replaceOne(byId(item), item)
     }
 
@@ -84,7 +85,7 @@ class ItemRepository implements MongoRepository {
         regex(NAME_FIELD, name, TEXT_SEARCH_OPTIONS)
     }
 
-    private MongoCollection<Item> collection(String collector) {
-        db().getCollection(collector, Item)
+    private MongoCollection<Item> collection(Collector collector) {
+        db().getCollection(collector.username, Item)
     }
 }

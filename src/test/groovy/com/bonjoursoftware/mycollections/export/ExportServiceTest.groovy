@@ -68,8 +68,8 @@ class ExportServiceTest extends Specification {
 
         then:
         1 * collectorRepository.findAll() >> collectors
-        1 * itemRepository.findByCollector('collector1') >> itemsCollector1
-        1 * itemRepository.findByCollector('collector2') >> itemsCollector2
+        1 * itemRepository.findByCollector(collectors.first()) >> itemsCollector1
+        1 * itemRepository.findByCollector(collectors.last()) >> itemsCollector2
 
         and:
         export.collectors.size() == collectors.size()

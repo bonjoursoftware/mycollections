@@ -43,7 +43,7 @@ class ExportService {
     Export run() {
         new Export(
                 collectors: collectorRepository.findAll().collect() {
-                    new EnrichedCollector(collector: it, items: itemRepository.findByCollector(it.username))
+                    new EnrichedCollector(collector: it, items: itemRepository.findByCollector(it))
                 }
         )
     }

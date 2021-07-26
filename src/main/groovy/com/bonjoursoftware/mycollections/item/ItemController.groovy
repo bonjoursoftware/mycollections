@@ -23,6 +23,7 @@
  */
 package com.bonjoursoftware.mycollections.item
 
+import com.bonjoursoftware.mycollections.collector.CollectorRoles
 import groovy.transform.CompileStatic
 import io.micronaut.http.annotation.Controller
 import io.micronaut.http.annotation.Delete
@@ -33,9 +34,10 @@ import io.micronaut.security.annotation.Secured
 import io.micronaut.security.authentication.Authentication
 import io.micronaut.security.rules.SecurityRule
 
+import javax.annotation.security.RolesAllowed
 import javax.inject.Inject
 
-import static com.bonjoursoftware.mycollections.collector.CollectorAuthenticationExtractor.getUsername
+import static com.bonjoursoftware.mycollections.collector.CollectorAuthenticationExtractor.getCollector
 
 @CompileStatic
 @Secured(SecurityRule.IS_AUTHENTICATED)
@@ -46,28 +48,33 @@ class ItemController {
     private ItemRepository itemRepository
 
     @Get
+    @RolesAllowed(CollectorRoles.READ)
     List<Item> findByCollector(Authentication authentication) {
-        itemRepository.findByCollector(getUsername(authentication))
+        itemRepository.findByCollector(getCollector(authentication))
     }
 
     @Get('/{id}')
+    @RolesAllowed(CollectorRoles.READ)
     Item findByIdAndCollector(@QueryValue('id') String id, Authentication authentication) {
-        itemRepository.findByIdAndCollector(id, getUsername(authentication))
+        itemRepository.findByIdAndCollector(id, getCollector(authentication))
     }
 
     @Get('/name/{name}')
+    @RolesAllowed(CollectorRoles.READ)
     List<Item> findByNameAndCollector(@QueryValue('name') String name, Authentication authentication) {
-        itemRepository.findByNameAndCollector(name, getUsername(authentication))
+        itemRepository.findByNameAndCollector(name, getCollector(authentication))
     }
 
     @Post
+    @RolesAllowed(CollectorRoles.WRITE)
     void upsert(Item item, Authentication authentication) {
         item.tap { tags = tags?.collect { it.trim() } }
-        itemRepository.upsert(item, getUsername(authentication))
+        itemRepository.upsert(item, getCollector(authentication))
     }
 
     @Delete
+    @RolesAllowed(CollectorRoles.WRITE)
     void delete(Item item, Authentication authentication) {
-        itemRepository.delete(item, getUsername(authentication))
+        itemRepository.delete(item, getCollector(authentication))
     }
 }

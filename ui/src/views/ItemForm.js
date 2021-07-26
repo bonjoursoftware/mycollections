@@ -25,51 +25,60 @@ module.exports = {
                     m('p', {class: 'control'}, [
                         m('input.input[type=text]', {class: 'is-hidden', disabled: true, value: Item.current.id}),
                         m('input.input[type=text][placeholder=Name]', {
+                            disabled: localStorage.getItem('readonly') === 'true',
                             oninput: function (e) {
                                 Item.current.name = e.target.value
                             }, value: Item.current.name
                         })
                     ]),
                 ]),
-                m('div', {class: 'field is-grouped'}, [
-                    m('p', {class: 'control is-expanded'}, [
+                m('div', {class: 'field'}, [
+                    m('p', {class: 'control'}, [
                         m('input.input[type=text][placeholder=Notes]', {
+                            disabled: localStorage.getItem('readonly') === 'true',
                             oninput: function (e) {
                                 Item.current.notes = e.target.value
                             }, value: Item.current.notes
                         })
                     ]),
+                ]),
+                m('div', {class: Item.hasRef() ? 'field' : 'is-hidden'}, [
+                    m('p', {class: 'control'}, [
+                        m('a', {class: 'button is-primary', href: Item.current.ref, rel: 'noopener noreferrer', target: '_blank', disabled: !Item.hasRef()}, [
+                            m('span', {class: 'icon'}, [m('i', {class: 'fas fa-film'})]),
+                            m('span', Item.hasRef() ? `${Item.current.ref}` : 'no-ref'),
+                        ]),
+                    ]),
+                ]),
+                m('div', {class: 'field is-grouped'}, [
                     m('p', {class: 'control'}, [
                         m('button', {
                             type: 'submit',
-                            class: 'button is-success',
-                            disabled: Item.isEmpty()
+                            class: localStorage.getItem('readonly') === 'true' ? 'is-hidden' : 'button is-success',
+                            disabled: localStorage.getItem('readonly') === 'true' || Item.isEmpty()
                         }, Item.exists() ? 'Save' : 'Add')
                     ]),
                     m('p', {class: 'control'}, [
                         m('button', {
-                            class: Item.exists() ? 'button is-danger' : 'button is-danger is-hidden',
-                            disabled: !Item.exists(),
+                            type: 'button',
+                            class: localStorage.getItem('readonly') === 'true' ? 'is-hidden' : Item.exists() ? 'button is-danger' : 'button is-danger is-hidden',
+                            disabled: localStorage.getItem('readonly') === 'true' || !Item.exists(),
                             onclick: function () {
                                 Item.delete()
                             }
                         }, 'Delete')
                     ]),
                 ]),
-                m('div', {class: Item.hasRef() ? 'field' : 'is-hidden'}, [
-                    m('p', {class: 'control'}, [
-                        m('a', {class: 'button is-primary', href: Item.current.ref, target: '_blank', disabled: !Item.hasRef()}, [
-                            m('span', {class: 'icon'}, [m('i', {class: 'fas fa-film'})]),
-                            m('span', Item.hasRef() ? `${Item.current.ref}` : 'no-ref'),
-                        ]),
-                    ]),
-                ]),
                 m('div', {class: 'field'}, [
                     m('div', {class: 'tags are-medium'}, [
                         Tag.list.map(function (tag) {
                             return m('a', {
-                                class: Item.current.tags.includes(tag) ? 'tag is-info' : 'tag is-light',
+                                class: Item.current.tags.includes(tag) ? 'tag is-info' : localStorage.getItem('readonly') === 'true' ? 'is-hidden' : 'tag is-light',
+                                disabled: localStorage.getItem('readonly') === 'true',
                                 onclick: function (e) {
+                                    if (localStorage.getItem('readonly') === 'true') {
+                                        return false
+                                    }
                                     var tag = e.target
                                     if (tag.classList.contains('is-light')) {
                                         tag.classList.replace('is-light', 'is-info')

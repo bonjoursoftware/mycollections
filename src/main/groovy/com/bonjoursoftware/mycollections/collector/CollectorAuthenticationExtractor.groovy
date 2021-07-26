@@ -25,13 +25,26 @@ package com.bonjoursoftware.mycollections.collector
 
 import io.micronaut.security.authentication.Authentication
 
+import static java.util.Optional.ofNullable
+
 class CollectorAuthenticationExtractor {
 
-    private static final USERNAME_KEY = 'username'
+    private static final FRIENDLY_NAME = 'friendlyname'
+    private static final ROLES = 'roles'
+    private static final USERNAME = 'username'
 
-    static String getUsername(Authentication authentication) {
-        Optional.ofNullable(authentication?.getAttributes()?.get(USERNAME_KEY))
-                .orElseThrow({ new UnknownCollectorException() })
+    static Collector getCollector(Authentication authentication) {
+        ofNullable(toCollector(authentication)).orElseThrow({ new UnknownCollectorException() })
+    }
+
+    private static Collector toCollector(Authentication authentication) {
+        authentication?.attributes?.get(USERNAME)?.with { username ->
+            new Collector(
+                    friendlyname: authentication.attributes.get(FRIENDLY_NAME) ?: 'anonymous',
+                    roles: authentication.attributes.get(ROLES) as Set<String> ?: Collections.<String>emptySet(),
+                    username: username
+            )
+        }
     }
 
     static class UnknownCollectorException extends RuntimeException {
