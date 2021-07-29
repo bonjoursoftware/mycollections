@@ -86,6 +86,6 @@ class ItemRepository implements MongoRepository {
     }
 
     private MongoCollection<Item> collection(Collector collector) {
-        db().getCollection(collector.username, Item)
+        db().getCollection(collector.collection, Item)
     }
 }
