@@ -23,18 +23,28 @@
  */
 package com.bonjoursoftware.mycollections.login
 
+import com.bonjoursoftware.mycollections.collector.Collector
 import com.bonjoursoftware.mycollections.notification.NotificationService
+import io.micronaut.security.authentication.Authentication
 import spock.lang.Specification
+import spock.lang.Subject
 
 class LoginControllerTest extends Specification {
 
+    private static final Collector A_COLLECTOR = new Collector(friendlyname: 'friend', roles: ['a-role'], username: 'collector')
     private static final String SOME_ALLOWED_SUFFIXES = 'allowed-domain.com,trusted-domain.com'
 
-    private LoginController loginController
+    private Authentication authentication
     private LoginService loginService
     private NotificationService notificationService
 
+    @Subject
+    private LoginController loginController
+
     void setup() {
+        authentication = Mock(Authentication) {
+            getAttributes() >> [friendlyname: A_COLLECTOR.friendlyname, roles: A_COLLECTOR.roles, username: A_COLLECTOR.username]
+        }
         loginService = Mock()
         notificationService = Mock()
         loginController = new LoginController(
@@ -71,6 +81,37 @@ class LoginControllerTest extends Specification {
         'someone'                              | _
         'someone@'                             | _
         'someone@denied-domain.com'            | _
+        '@whatever'                            | _
+        '@'                                    | _
+        'someone@with@weird-email-address.com' | _
+    }
+
+    def 'Request share link delegates to login service when username is valid email'() {
+        when:
+        loginController.share(username, authentication)
+
+        then:
+        1 * loginService.share(username, A_COLLECTOR)
+
+        where:
+        username                     | _
+        'someone@some-domain.com'    | _
+        'someone@trusted-domain.com' | _
+    }
+
+    def 'Request share link does nothing when username is invalid email'() {
+        when:
+        loginController.share(username, authentication)
+
+        then:
+        0 * loginService._
+
+        where:
+        username                               | _
+        null                                   | _
+        ''                                     | _
+        'someone'                              | _
+        'someone@'                             | _
         '@whatever'                            | _
         '@'                                    | _
         'someone@with@weird-email-address.com' | _
