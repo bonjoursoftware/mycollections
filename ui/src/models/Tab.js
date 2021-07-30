@@ -15,6 +15,10 @@ var Tab = {
 
     isSearchActive: function () {
         return m.route.get().startsWith('/search')
+    },
+
+    isShareActive: function () {
+        return m.route.get().startsWith('/share')
     }
 }
 
