@@ -23,7 +23,6 @@
  */
 package com.bonjoursoftware.mycollections.login
 
-import com.bonjoursoftware.mycollections.collector.Collector
 import com.bonjoursoftware.mycollections.collector.CollectorRoles
 import com.bonjoursoftware.mycollections.notification.NotificationService
 import groovy.transform.CompileStatic

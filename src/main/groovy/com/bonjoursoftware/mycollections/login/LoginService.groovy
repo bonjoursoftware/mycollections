@@ -60,7 +60,12 @@ class LoginService {
 
     void request(String username) {
         tokenService.generate().with { token ->
-            collectorRepository.upsert(buildCollector(username, token.hash))
+            collectorRepository.upsert(
+                    buildCollector(username, token.hash).tap {
+                        it.collection = username
+                        it.roles = [CollectorRoles.READ, CollectorRoles.WRITE].toSet()
+                    }
+            )
             notificationService.notify(LOGIN_LINK_TITLE, loginBody(username, token.secret), username)
         }
     }

@@ -68,6 +68,8 @@ class LoginServiceTest extends Specification {
             collector.username == A_COLLECTOR.username
                     && collector.hash == A_TOKEN.hash
                     && collector.friendlyname == A_COLLECTOR.friendlyname
+                    && collector.collection == A_COLLECTOR.username
+                    && collector.roles == [CollectorRoles.READ, CollectorRoles.WRITE].toSet()
         })
         1 * notificationService.notify(
                 'MyCollections Login Link',
