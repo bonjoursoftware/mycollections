@@ -35,6 +35,19 @@ module.exports = {
                         m('span', {class: 'icon is-small'}, [m('i', {class: 'fas fa-search'})]),
                         m('span', 'Search')
                     ])
+                ]),
+                m('li', {
+                    class: localStorage.getItem('readonly') === 'true' ? 'is-hidden' : Tab.isShareActive() ? 'is-active' : '', onclick: function () {
+                        if (localStorage.getItem('readonly') === 'true') {
+                            return
+                        }
+                        Tab.select('share')
+                    }
+                }, [
+                    m('a', [
+                        m('span', {class: 'icon is-small'}, [m('i', {class: 'fas fa-share-alt'})]),
+                        m('span', 'Share')
+                    ])
                 ])
             ] : [])
         ])

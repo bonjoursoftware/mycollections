@@ -25,6 +25,7 @@ package com.bonjoursoftware.mycollections.export
 
 import com.bonjoursoftware.mycollections.collector.Collector
 import com.bonjoursoftware.mycollections.collector.CollectorRepository
+import com.bonjoursoftware.mycollections.collector.CollectorRoles
 import com.bonjoursoftware.mycollections.item.Item
 import com.bonjoursoftware.mycollections.item.ItemRepository
 import spock.lang.Specification
@@ -44,11 +45,12 @@ class ExportServiceTest extends Specification {
         exportService = new ExportService(collectorRepository: collectorRepository, itemRepository: itemRepository)
     }
 
-    def 'The export service collates all collectors and their items'() {
+    def 'The export service collates all collectors with write role and their items'() {
         given:
         def collectors = [
-                new Collector(username: 'collector1'),
-                new Collector(username: 'collector2')
+                new Collector(username: 'collector1', roles: [CollectorRoles.READ, CollectorRoles.WRITE]),
+                new Collector(username: 'collector2', roles: [CollectorRoles.READ]),
+                new Collector(username: 'collector3', roles: [CollectorRoles.READ, CollectorRoles.WRITE]),
         ]
 
         and:
@@ -58,9 +60,9 @@ class ExportServiceTest extends Specification {
         ]
 
         and:
-        def itemsCollector2 = [
-                new Item(name: 'first item collector2'),
-                new Item(name: 'second item collector2'),
+        def itemsCollector3 = [
+                new Item(name: 'first item collector3'),
+                new Item(name: 'second item collector3'),
         ]
 
         when:
@@ -69,11 +71,11 @@ class ExportServiceTest extends Specification {
         then:
         1 * collectorRepository.findAll() >> collectors
         1 * itemRepository.findByCollector(collectors.first()) >> itemsCollector1
-        1 * itemRepository.findByCollector(collectors.last()) >> itemsCollector2
+        1 * itemRepository.findByCollector(collectors.last()) >> itemsCollector3
 
         and:
-        export.collectors.size() == collectors.size()
-        export.collectors.contains(new EnrichedCollector(collector: new Collector(username: 'collector1'), items: itemsCollector1))
-        export.collectors.contains(new EnrichedCollector(collector: new Collector(username: 'collector2'), items: itemsCollector2))
+        export.collectors.size() == 2
+        export.collectors.contains(new EnrichedCollector(collector: collectors.first(), items: itemsCollector1))
+        export.collectors.contains(new EnrichedCollector(collector: collectors.last(), items: itemsCollector3))
     }
 }

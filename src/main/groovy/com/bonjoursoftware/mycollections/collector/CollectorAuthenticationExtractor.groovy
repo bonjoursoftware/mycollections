@@ -29,6 +29,7 @@ import static java.util.Optional.ofNullable
 
 class CollectorAuthenticationExtractor {
 
+    private static final COLLECTION = 'collection'
     private static final FRIENDLY_NAME = 'friendlyname'
     private static final ROLES = 'roles'
     private static final USERNAME = 'username'
@@ -40,6 +41,7 @@ class CollectorAuthenticationExtractor {
     private static Collector toCollector(Authentication authentication) {
         authentication?.attributes?.get(USERNAME)?.with { username ->
             new Collector(
+                    collection: authentication.attributes.get(COLLECTION),
                     friendlyname: authentication.attributes.get(FRIENDLY_NAME) ?: 'anonymous',
                     roles: authentication.attributes.get(ROLES) as Set<String> ?: Collections.<String>emptySet(),
                     username: username

@@ -25,6 +25,7 @@ package com.bonjoursoftware.mycollections.login
 
 import com.bonjoursoftware.mycollections.collector.Collector
 import com.bonjoursoftware.mycollections.collector.CollectorRepository
+import com.bonjoursoftware.mycollections.collector.CollectorRoles
 import com.bonjoursoftware.mycollections.notification.NotificationService
 import com.bonjoursoftware.mycollections.token.TokenService
 import groovy.transform.CompileStatic
@@ -59,8 +60,25 @@ class LoginService {
 
     void request(String username) {
         tokenService.generate().with { token ->
-            collectorRepository.upsert(buildCollector(username, token.hash))
+            collectorRepository.upsert(
+                    buildCollector(username, token.hash).tap {
+                        it.collection = username
+                        it.roles = [CollectorRoles.READ, CollectorRoles.WRITE].toSet()
+                    }
+            )
             notificationService.notify(LOGIN_LINK_TITLE, loginBody(username, token.secret), username)
+        }
+    }
+
+    void share(String delegate, Collector collector) {
+        tokenService.generate().with { token ->
+            collectorRepository.upsert(
+                    buildCollector(delegate, token.hash).tap {
+                        it.collection = collector.collection
+                        it.roles = [CollectorRoles.READ].toSet()
+                    }
+            )
+            notificationService.notify(LOGIN_LINK_TITLE, loginBody(delegate, token.secret), delegate)
         }
     }
 

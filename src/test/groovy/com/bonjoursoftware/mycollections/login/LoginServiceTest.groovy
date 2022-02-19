@@ -25,22 +25,26 @@ package com.bonjoursoftware.mycollections.login
 
 import com.bonjoursoftware.mycollections.collector.Collector
 import com.bonjoursoftware.mycollections.collector.CollectorRepository
+import com.bonjoursoftware.mycollections.collector.CollectorRoles
 import com.bonjoursoftware.mycollections.notification.NotificationService
 import com.bonjoursoftware.mycollections.token.Token
 import com.bonjoursoftware.mycollections.token.TokenService
 import spock.lang.Specification
+import spock.lang.Subject
 
 class LoginServiceTest extends Specification {
 
-    private static final String A_USERNAME = 'username@domain.com'
-    private static final String A_FRIENDLYNAME = 'username'
+    private static final Collector A_COLLECTOR = new Collector(friendlyname: 'username', roles: ['a-role'], username: 'username@domain.com')
+    private static final String A_DELEGATE = 'delegate@other-domain.com'
     private static final String A_HOST_DOMAIN = 'domain'
     private static final Token A_TOKEN = new Token(secret: 'a secret/', hash: 'a hash')
 
-    private LoginService loginService
     private CollectorRepository collectorRepository
     private NotificationService notificationService
     private TokenService tokenService
+
+    @Subject
+    private LoginService loginService
 
     void setup() {
         collectorRepository = Mock()
@@ -57,17 +61,39 @@ class LoginServiceTest extends Specification {
 
     def 'Request authentication link refreshes secret and notifies collector'() {
         when:
-        loginService.request(A_USERNAME)
+        loginService.request(A_COLLECTOR.username)
 
         then:
         1 * collectorRepository.upsert({ Collector collector ->
-            collector.username == A_USERNAME
+            collector.username == A_COLLECTOR.username
                     && collector.hash == A_TOKEN.hash
-                    && collector.friendlyname == A_FRIENDLYNAME
+                    && collector.friendlyname == A_COLLECTOR.friendlyname
+                    && collector.collection == A_COLLECTOR.username
+                    && collector.roles == [CollectorRoles.READ, CollectorRoles.WRITE].toSet()
         })
         1 * notificationService.notify(
                 'MyCollections Login Link',
                 { String body -> body.contains("${A_HOST_DOMAIN}/#!/login/username%40domain.com/a+secret%2F") },
-                A_USERNAME)
+                A_COLLECTOR.username
+        )
+    }
+
+    def 'Request share link refreshes secret and notifies delegate collector'() {
+        when:
+        loginService.share(A_DELEGATE, A_COLLECTOR)
+
+        then:
+        1 * collectorRepository.upsert({ Collector delegate ->
+            delegate.username == A_DELEGATE
+                    && delegate.hash == A_TOKEN.hash
+                    && delegate.friendlyname == 'delegate'
+                    && delegate.collection == A_COLLECTOR.collection
+                    && delegate.roles == [CollectorRoles.READ].toSet()
+        })
+        1 * notificationService.notify(
+                'MyCollections Login Link',
+                { String body -> body.contains("${A_HOST_DOMAIN}/#!/login/delegate%40other-domain.com/a+secret%2F") },
+                A_DELEGATE
+        )
     }
 }

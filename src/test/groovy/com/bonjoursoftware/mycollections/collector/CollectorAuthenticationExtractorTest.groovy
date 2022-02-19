@@ -28,7 +28,7 @@ import spock.lang.Specification
 
 class CollectorAuthenticationExtractorTest extends Specification {
 
-    private static final Collector A_COLLECTOR = new Collector(friendlyname: 'friend', roles: ['a-role'], username: 'collector')
+    private static final Collector A_COLLECTOR = new Collector(collection: 'a-collection', friendlyname: 'friend', roles: ['a-role'], username: 'collector')
 
     def 'Throws an exception when no collector is authenticated'() {
         when:
@@ -54,7 +54,7 @@ class CollectorAuthenticationExtractorTest extends Specification {
     def 'Returns collector when collector is authenticated and their username is known'() {
         given:
         def authentication = Mock(Authentication) {
-            getAttributes() >> [friendlyname: A_COLLECTOR.friendlyname, roles: A_COLLECTOR.roles, username: A_COLLECTOR.username]
+            getAttributes() >> [collection: A_COLLECTOR.collection, friendlyname: A_COLLECTOR.friendlyname, roles: A_COLLECTOR.roles, username: A_COLLECTOR.username]
         }
 
         expect:

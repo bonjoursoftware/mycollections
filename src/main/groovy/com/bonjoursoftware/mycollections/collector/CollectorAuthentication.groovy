@@ -69,7 +69,14 @@ class CollectorAuthentication implements AuthenticationProvider {
     }
 
     private static UserDetails toUserDetails(Collector collector) {
-        new UserDetails(collector.username, collector.roles, [friendlyname: collector.friendlyname as Object])
+        new UserDetails(
+                collector.username,
+                collector.roles,
+                [
+                        collection: collector.collection as Object,
+                        friendlyname: collector.friendlyname as Object
+                ]
+        )
     }
 
     private String resolveClientAddress(HttpRequest request) {

@@ -24,6 +24,7 @@
 package com.bonjoursoftware.mycollections.export
 
 import com.bonjoursoftware.mycollections.collector.CollectorRepository
+import com.bonjoursoftware.mycollections.collector.CollectorRoles
 import com.bonjoursoftware.mycollections.item.ItemRepository
 import groovy.transform.CompileStatic
 
@@ -41,10 +42,8 @@ class ExportService {
     private ItemRepository itemRepository
 
     Export run() {
-        new Export(
-                collectors: collectorRepository.findAll().collect() {
-                    new EnrichedCollector(collector: it, items: itemRepository.findByCollector(it))
-                }
-        )
+        new Export(collectors: collectorRepository.findAll()
+                .findAll { it.roles.contains(CollectorRoles.WRITE) }
+                .collect() { new EnrichedCollector(collector: it, items: itemRepository.findByCollector(it)) })
     }
 }

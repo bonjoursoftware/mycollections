@@ -46,10 +46,10 @@ class TagRepository implements MongoRepository {
     }
 
     private MongoCollection tagCollection(Collector collector) {
-        db().getCollection(collector.username, String)
+        db().getCollection(collector.collection, String)
     }
 
     private MongoCollection<Item> itemCollection(Collector collector) {
-        db().getCollection(collector.username, Item)
+        db().getCollection(collector.collection, Item)
     }
 }

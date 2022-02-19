@@ -32,6 +32,8 @@ class Collector {
     @JsonIgnore
     ObjectId id
     String username
+    @JsonIgnore
+    String collection
     String friendlyname
     Set<String> roles = []
     @JsonIgnore

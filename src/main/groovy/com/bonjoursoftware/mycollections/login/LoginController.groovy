@@ -23,20 +23,26 @@
  */
 package com.bonjoursoftware.mycollections.login
 
+import com.bonjoursoftware.mycollections.collector.CollectorRoles
 import com.bonjoursoftware.mycollections.notification.NotificationService
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import io.micronaut.context.annotation.Property
 import io.micronaut.http.annotation.Controller
 import io.micronaut.http.annotation.Get
+import io.micronaut.http.annotation.Post
 import io.micronaut.http.annotation.QueryValue
 import io.micronaut.security.annotation.Secured
+import io.micronaut.security.authentication.Authentication
 import io.micronaut.security.rules.SecurityRule
 
+import javax.annotation.security.RolesAllowed
 import javax.inject.Inject
 
+import static com.bonjoursoftware.mycollections.collector.CollectorAuthenticationExtractor.getCollector
+
 @CompileStatic
-@Secured(SecurityRule.IS_ANONYMOUS)
+@Secured(SecurityRule.IS_AUTHENTICATED)
 @Controller('/api/v1/login')
 @Slf4j
 class LoginController {
@@ -55,11 +61,19 @@ class LoginController {
     private String allowedSuffixes
 
     @Get('/{username}')
+    @Secured(SecurityRule.IS_ANONYMOUS)
     void requestLogin(@QueryValue('username') String username) {
         if (looksLikeEmailAddress(username) && hasAllowedSuffix(username))
             loginService.request(username)
         else
             notificationService.notify(LOGIN_REQUEST_NOTIFICATION, "[${username}] made an unauthorised login request")
+    }
+
+    @Post('/{delegate}')
+    @RolesAllowed(CollectorRoles.WRITE)
+    void share(String delegate, Authentication authentication) {
+        if (looksLikeEmailAddress(delegate))
+            loginService.share(delegate, getCollector(authentication))
     }
 
     private boolean looksLikeEmailAddress(String username) {
