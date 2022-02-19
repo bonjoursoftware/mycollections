@@ -29,7 +29,7 @@ import com.mongodb.client.model.ReplaceOptions
 import groovy.transform.CompileStatic
 import org.bson.conversions.Bson
 
-import javax.inject.Singleton
+import jakarta.inject.Singleton
 
 import static com.mongodb.client.model.Filters.eq
 

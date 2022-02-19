@@ -35,8 +35,8 @@ import io.micronaut.security.authentication.UserDetails
 import io.reactivex.Flowable
 import org.reactivestreams.Publisher
 
-import javax.inject.Inject
-import javax.inject.Singleton
+import jakarta.inject.Inject
+import jakarta.inject.Singleton
 
 import static io.reactivex.Flowable.just
 import static org.springframework.security.crypto.bcrypt.BCrypt.checkpw

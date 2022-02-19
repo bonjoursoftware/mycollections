@@ -27,7 +27,7 @@ import com.mongodb.client.MongoClient
 import com.mongodb.client.MongoDatabase
 import io.micronaut.context.annotation.Property
 
-import javax.inject.Inject
+import jakarta.inject.Inject
 
 trait MongoRepository {
 

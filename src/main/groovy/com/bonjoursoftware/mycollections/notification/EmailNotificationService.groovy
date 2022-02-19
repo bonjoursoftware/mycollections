@@ -32,7 +32,7 @@ import com.sendgrid.helpers.mail.objects.Content
 import com.sendgrid.helpers.mail.objects.Email
 import groovy.transform.CompileStatic
 
-import javax.inject.Singleton
+import jakarta.inject.Singleton
 
 import static java.time.LocalDate.now
 import static java.util.Base64.encoder

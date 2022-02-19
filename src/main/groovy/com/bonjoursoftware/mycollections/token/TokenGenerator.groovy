@@ -26,7 +26,7 @@ package com.bonjoursoftware.mycollections.token
 import groovy.transform.CompileStatic
 import org.springframework.security.crypto.keygen.Base64StringKeyGenerator
 
-import javax.inject.Singleton
+import jakarta.inject.Singleton
 
 import static org.springframework.security.crypto.bcrypt.BCrypt.gensalt
 import static org.springframework.security.crypto.bcrypt.BCrypt.hashpw

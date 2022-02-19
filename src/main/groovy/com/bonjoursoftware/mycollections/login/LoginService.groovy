@@ -31,8 +31,8 @@ import com.bonjoursoftware.mycollections.token.TokenService
 import groovy.transform.CompileStatic
 import io.micronaut.context.annotation.Property
 
-import javax.inject.Inject
-import javax.inject.Singleton
+import jakarta.inject.Inject
+import jakarta.inject.Singleton
 
 import static java.net.URLEncoder.encode
 
