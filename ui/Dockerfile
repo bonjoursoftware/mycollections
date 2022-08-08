@@ -1,4 +1,4 @@
-FROM node:17-bullseye-slim as ui-builder
+FROM node:18-bullseye-slim as ui-builder
 WORKDIR /app
 COPY package.json .
 COPY package-lock.json .
