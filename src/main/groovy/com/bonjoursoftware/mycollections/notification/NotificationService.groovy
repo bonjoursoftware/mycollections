@@ -25,6 +25,7 @@ package com.bonjoursoftware.mycollections.notification
 
 trait NotificationService {
     String apiKey
+    String source
     String target
 
     abstract void notify(String title, String body)
