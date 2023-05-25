@@ -78,11 +78,21 @@ class EmailNotificationService implements NotificationService {
     }
 
     private String buildPayloadWithBody(String title, String body, String recipient) {
-        new Mail(new Email(name: SOURCE_NAME, email: recipient), title, new Email(recipient), new Content(HTML_CONTENT_TYPE, body)).build()
+        new Mail(
+                new Email(name: SOURCE_NAME, email: source),
+                title,
+                new Email(recipient),
+                new Content(HTML_CONTENT_TYPE, body)
+        ).build()
     }
 
     private String buildPayloadWithAttachment(String title, String body, String recipient) {
-        new Mail(new Email(name: SOURCE_NAME, email: recipient), title, new Email(recipient), new Content(HTML_CONTENT_TYPE, title)).tap {
+        new Mail(
+                new Email(name: SOURCE_NAME, email: source),
+                title,
+                new Email(recipient),
+                new Content(HTML_CONTENT_TYPE, title)
+        ).tap {
             addAttachments(new Attachments().tap {
                 setContent(getEncoder().encodeToString(body.getBytes(CHARSET)))
                 setContentId(title)
