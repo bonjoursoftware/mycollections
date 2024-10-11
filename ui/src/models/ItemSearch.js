@@ -24,7 +24,7 @@ var ItemSearch = {
                 withCredentials: true
             }).then(function (result) {
                 ItemSearch.search.hasRun = true,
-                ItemSearch.search.result = result.sort(function (item1, item2) {
+                ItemSearch.search.result = result.filter((item) => item.tags.every((tag) => !(tag.startsWith('_')))).sort(function (item1, item2) {
                     return item1.name.localeCompare(item2.name)
                 })
             })
