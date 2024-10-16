@@ -14,7 +14,10 @@ module.exports = {
                             Tag.reset()
                         }
                     }, 'Tags')]),
-                    m('li', {class: 'is-active'}, [m('a', {href: '#', 'aria-current': 'page'}, `${Tag.current} (${Tag.item.length})`)])
+                    m('li', {class: 'is-active'}, [
+                        m('a', {href: '#', 'aria-current': 'page'}, `${Tag.current} (${Tag.item.length})`),
+                        m('span', {class: 'icon is-small', onclick: function () { Tag.reverse_sort() }}, [m('i', {class: 'fas fa-sort'})])
+                    ])
                 ])
             ]),
             m('aside', {class: 'menu'}, [

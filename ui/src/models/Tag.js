@@ -55,6 +55,10 @@ var Tag = {
     reset: function () {
         Tag.current = undefined
         m.route.set('/tag')
+    },
+
+    reverse_sort: function () {
+        Tag.item.reverse()
     }
 }
 
