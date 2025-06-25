@@ -19,6 +19,8 @@ micronaut:
       logout:
         enabled: true
         get-allowed: true
+  server:
+    port: 8443
   ssl:
     enabled: true
     build-self-signed: true
