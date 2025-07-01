@@ -39,7 +39,7 @@ import static java.util.Base64.encoder
 
 @CompileStatic
 @Singleton
-class EmailNotificationService implements NotificationService {
+class SendgridEmailNotificationService implements NotificationService {
 
     private static final String ENDPOINT = 'mail/send'
     private static final String SOURCE_NAME = 'MyCollections'
