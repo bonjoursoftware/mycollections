@@ -23,7 +23,7 @@
  */
 package com.bonjoursoftware.mycollections
 
-import com.bonjoursoftware.mycollections.notification.SendgridEmailNotificationService
+import com.bonjoursoftware.mycollections.notification.GmailNotificationService
 import com.bonjoursoftware.mycollections.notification.NotificationService
 import com.mongodb.ConnectionString
 import com.mongodb.MongoClientSettings
@@ -61,6 +61,6 @@ class BeanFactory {
             @Property(name = 'notification.target') String target
     ) {
         if (type != 'email') throw new RuntimeException("Notification type [$type] is not supported")
-        new SendgridEmailNotificationService(apiKey: apiKey, source: source, target: target)
+        new GmailNotificationService(apiKey: apiKey, source: source, target: target)
     }
 }
