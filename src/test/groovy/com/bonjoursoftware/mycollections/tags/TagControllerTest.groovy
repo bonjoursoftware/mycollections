@@ -38,7 +38,9 @@ class TagControllerTest extends Specification {
 
     void setup() {
         authentication = Mock(Authentication) {
-            getAttributes() >> [friendlyname: A_COLLECTOR.friendlyname, roles: A_COLLECTOR.roles, username: A_COLLECTOR.username]
+            getAttributes() >> [collection: A_COLLECTOR.collection, friendlyname: A_COLLECTOR.friendlyname]
+            getName() >> A_COLLECTOR.username
+            getRoles() >> A_COLLECTOR.roles
         }
         tagRepository = Mock()
         tagController = new TagController(tagRepository: tagRepository)

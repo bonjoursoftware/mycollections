@@ -54,7 +54,9 @@ class CollectorAuthenticationExtractorTest extends Specification {
     def 'Returns collector when collector is authenticated and their username is known'() {
         given:
         def authentication = Mock(Authentication) {
-            getAttributes() >> [collection: A_COLLECTOR.collection, friendlyname: A_COLLECTOR.friendlyname, roles: A_COLLECTOR.roles, username: A_COLLECTOR.username]
+            getAttributes() >> [collection: A_COLLECTOR.collection, friendlyname: A_COLLECTOR.friendlyname]
+            getName() >> A_COLLECTOR.username
+            getRoles() >> A_COLLECTOR.roles
         }
 
         expect:

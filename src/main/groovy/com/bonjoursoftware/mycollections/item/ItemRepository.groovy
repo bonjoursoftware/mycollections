@@ -30,7 +30,7 @@ import com.mongodb.client.MongoCollection
 import groovy.transform.CompileStatic
 import org.bson.conversions.Bson
 
-import javax.inject.Singleton
+import jakarta.inject.Singleton
 
 import static com.mongodb.client.model.Filters.eq
 import static com.mongodb.client.model.Filters.regex

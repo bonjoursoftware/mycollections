@@ -39,11 +39,11 @@ class CollectorAuthenticationExtractor {
     }
 
     private static Collector toCollector(Authentication authentication) {
-        authentication?.attributes?.get(USERNAME)?.with { username ->
+        authentication?.name?.with { username ->
             new Collector(
                     collection: authentication.attributes.get(COLLECTION),
                     friendlyname: authentication.attributes.get(FRIENDLY_NAME) ?: 'anonymous',
-                    roles: authentication.attributes.get(ROLES) as Set<String> ?: Collections.<String>emptySet(),
+                    roles: authentication.roles as Set<String> ?: Collections.<String>emptySet(),
                     username: username
             )
         }

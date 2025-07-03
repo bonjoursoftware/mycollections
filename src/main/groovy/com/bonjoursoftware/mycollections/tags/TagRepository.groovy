@@ -29,7 +29,7 @@ import com.bonjoursoftware.mycollections.mongo.MongoRepository
 import com.mongodb.client.MongoCollection
 import groovy.transform.CompileStatic
 
-import javax.inject.Singleton
+import jakarta.inject.Singleton
 
 import static com.mongodb.client.model.Filters.eq
 
