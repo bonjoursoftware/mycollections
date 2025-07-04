@@ -1,4 +1,4 @@
-FROM docker.io/arm64v8/adoptopenjdk:16.0.1_9-jre-hotspot
+FROM docker.io/arm64v8/eclipse-temurin:17-jre
 WORKDIR /home/mycollections
 COPY build/libs/*.jar ./mycollections.jar
 EXPOSE 8443

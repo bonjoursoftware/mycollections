@@ -31,14 +31,12 @@ import io.micronaut.security.authentication.AuthenticationFailed
 import io.micronaut.security.authentication.AuthenticationProvider
 import io.micronaut.security.authentication.AuthenticationRequest
 import io.micronaut.security.authentication.AuthenticationResponse
-import io.micronaut.security.authentication.UserDetails
-import io.reactivex.Flowable
+import io.reactivex.rxjava3.core.Flowable
+import jakarta.inject.Inject
+import jakarta.inject.Singleton
 import org.reactivestreams.Publisher
 
-import javax.inject.Inject
-import javax.inject.Singleton
-
-import static io.reactivex.Flowable.just
+import static io.reactivex.rxjava3.core.Flowable.just
 import static org.springframework.security.crypto.bcrypt.BCrypt.checkpw
 
 @CompileStatic
@@ -63,17 +61,17 @@ class CollectorAuthentication implements AuthenticationProvider {
                 just(toUserDetails(collector)) as Flowable<AuthenticationResponse>
             } else {
                 notificationService.notify(AUTH_FAILURE, "Authentication failure for the following identity: ${authenticationRequest.identity} (${authenticationRequest.secret}) @ ${resolveClientAddress(httpRequest)}")
-                just(new AuthenticationFailed()) as Flowable<AuthenticationResponse>
+                just(AuthenticationResponse.failure()) as Flowable<AuthenticationResponse>
             }
         }
     }
 
-    private static UserDetails toUserDetails(Collector collector) {
-        new UserDetails(
+    private static AuthenticationResponse toUserDetails(Collector collector) {
+        AuthenticationResponse.success(
                 collector.username,
                 collector.roles,
                 [
-                        collection: collector.collection as Object,
+                        collection  : collector.collection as Object,
                         friendlyname: collector.friendlyname as Object
                 ]
         )

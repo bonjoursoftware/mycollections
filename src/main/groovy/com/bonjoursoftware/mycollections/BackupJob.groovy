@@ -29,8 +29,8 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import groovy.transform.CompileStatic
 import io.micronaut.scheduling.annotation.Scheduled
 
-import javax.inject.Inject
-import javax.inject.Singleton
+import jakarta.inject.Inject
+import jakarta.inject.Singleton
 
 import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL
 

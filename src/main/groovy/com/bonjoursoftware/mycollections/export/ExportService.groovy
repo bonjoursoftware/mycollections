@@ -28,8 +28,8 @@ import com.bonjoursoftware.mycollections.collector.CollectorRoles
 import com.bonjoursoftware.mycollections.item.ItemRepository
 import groovy.transform.CompileStatic
 
-import javax.inject.Inject
-import javax.inject.Singleton
+import jakarta.inject.Inject
+import jakarta.inject.Singleton
 
 @CompileStatic
 @Singleton

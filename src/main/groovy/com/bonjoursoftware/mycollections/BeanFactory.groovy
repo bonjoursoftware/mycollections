@@ -35,7 +35,7 @@ import io.micronaut.context.annotation.Property
 import org.bson.codecs.configuration.CodecRegistries
 import org.bson.codecs.pojo.PojoCodecProvider
 
-import javax.inject.Singleton
+import jakarta.inject.Singleton
 
 @Factory
 @CompileStatic

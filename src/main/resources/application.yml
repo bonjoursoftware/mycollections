@@ -21,9 +21,9 @@ micronaut:
         get-allowed: true
   server:
     port: 8443
-  ssl:
-    enabled: true
-    build-self-signed: true
+    ssl:
+      enabled: true
+      build-self-signed: true
 mongo:
   user: '${MONGODB_USER}'
   password: '${MONGODB_PASSWORD}'
