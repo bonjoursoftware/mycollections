@@ -27,11 +27,9 @@ import com.bonjoursoftware.mycollections.notification.NotificationService
 import groovy.transform.CompileStatic
 import io.micronaut.http.HttpRequest
 import io.micronaut.http.server.util.HttpClientAddressResolver
-import io.micronaut.security.authentication.AuthenticationFailed
 import io.micronaut.security.authentication.AuthenticationProvider
 import io.micronaut.security.authentication.AuthenticationRequest
 import io.micronaut.security.authentication.AuthenticationResponse
-import io.reactivex.rxjava3.core.Flowable
 import jakarta.inject.Inject
 import jakarta.inject.Singleton
 import org.reactivestreams.Publisher
@@ -58,23 +56,19 @@ class CollectorAuthentication implements AuthenticationProvider {
     Publisher<AuthenticationResponse> authenticate(HttpRequest httpRequest, AuthenticationRequest authenticationRequest) {
         collectorRepository.findByUsername(authenticationRequest.identity as String).with { collector ->
             if (collector && checkpw(authenticationRequest.secret as String, collector.hash)) {
-                just(toUserDetails(collector)) as Flowable<AuthenticationResponse>
+                just(AuthenticationResponse.success(
+                        collector.username,
+                        collector.roles,
+                        [
+                                collection  : collector.collection,
+                                friendlyname: collector.friendlyname
+                        ] as Map<String, Object>
+                ))
             } else {
                 notificationService.notify(AUTH_FAILURE, "Authentication failure for the following identity: ${authenticationRequest.identity} (${authenticationRequest.secret}) @ ${resolveClientAddress(httpRequest)}")
-                just(AuthenticationResponse.failure()) as Flowable<AuthenticationResponse>
+                just(AuthenticationResponse.failure())
             }
         }
-    }
-
-    private static AuthenticationResponse toUserDetails(Collector collector) {
-        AuthenticationResponse.success(
-                collector.username,
-                collector.roles,
-                [
-                        collection  : collector.collection as Object,
-                        friendlyname: collector.friendlyname as Object
-                ]
-        )
     }
 
     private String resolveClientAddress(HttpRequest request) {
