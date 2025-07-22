@@ -28,7 +28,5 @@ trait NotificationService {
     String source
     String target
 
-    abstract void notify(String title, String body)
-
-    abstract void notify(String title, String body, String recipient)
+    abstract void notify(String title, String body, String recipient = target)
 }

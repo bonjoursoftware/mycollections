@@ -1,80 +1,66 @@
 package com.bonjoursoftware.mycollections.notification
 
+import groovy.transform.CompileStatic
 import jakarta.activation.DataHandler
 import jakarta.mail.Authenticator
 import jakarta.mail.Message
 import jakarta.mail.PasswordAuthentication
 import jakarta.mail.Session
-import jakarta.mail.Transport
 import jakarta.mail.internet.InternetAddress
 import jakarta.mail.internet.MimeBodyPart
 import jakarta.mail.internet.MimeMessage
 import jakarta.mail.internet.MimeMultipart
 import jakarta.mail.util.ByteArrayDataSource
 
+import static jakarta.mail.Transport.send
 import static java.time.LocalDate.now
 
+@CompileStatic
 class GmailNotificationService implements NotificationService {
 
-    private static final String HTML_CONTENT_TYPE = 'text/html'
     private static final String ATTACHMENT_EXTENSION = 'json'
+    private static final String HTML_CONTENT_TYPE = 'text/html'
     private static final String JSON_CONTENT_TYPE = 'application/json'
+    private static final String SOURCE_NAME = 'MyCollections'
 
     private static final int MAX_BODY_LENGTH = 4096
 
-    @Override
-    void notify(String title, String body) {
-        sendMail(title, body)
+    private static final Properties PROPERTIES = new Properties().tap {
+        put("mail.smtp.host", "smtp.gmail.com")
+        put("mail.smtp.port", "587")
+        put("mail.smtp.auth", "true")
+        put("mail.smtp.starttls.enable", "true")
+        put("mail.smtp.ssl.protocols", "TLSv1.2")
+        put("mail.smtp.connectiontimeout", "10000") // seconds
+        put("mail.smtp.timeout", "10000") // seconds
     }
+
+    private final Session SESSION = Session.getInstance(PROPERTIES, new Authenticator() {
+        @Override
+        protected PasswordAuthentication getPasswordAuthentication() {
+            return new PasswordAuthentication(source, apiKey)
+        }
+    })
 
     @Override
     void notify(String title, String body, String recipient) {
-        sendMail(title, body, recipient)
-    }
+        send(new MimeMessage(SESSION).tap {
+            setFrom(new InternetAddress(source, SOURCE_NAME))
+            addRecipient(Message.RecipientType.TO, new InternetAddress(recipient))
+            setSubject(title)
 
-    private sendMail(String title, String body, String recipient = target) {
-        Properties props = new Properties()
-        props.put("mail.smtp.host", "smtp.gmail.com")
-        props.put("mail.smtp.port", "587")
-        props.put("mail.smtp.auth", "true")
-        props.put("mail.smtp.starttls.enable", "true")
-        props.put("mail.smtp.ssl.protocols", "TLSv1.2")
-        props.put("mail.smtp.connectiontimeout", "5000") // seconds
-        props.put("mail.smtp.timeout", "5000") // seconds
+            setContent(new MimeMultipart().tap {
+                addBodyPart(new MimeBodyPart().tap {
+                    body.size() > MAX_BODY_LENGTH ? setText(title) : setContent(body, HTML_CONTENT_TYPE)
+                })
 
-        def sesh = Session.getInstance(props, new Authenticator() {
-            @Override
-            protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication(source, apiKey)
-            }
+                if (body.size() > MAX_BODY_LENGTH) {
+                    addBodyPart(new MimeBodyPart().tap {
+                        setDataHandler(new DataHandler(new ByteArrayDataSource(body, JSON_CONTENT_TYPE)))
+                        setFileName("${title.toLowerCase().replace(' ', '_')}_${now().toString()}.${ATTACHMENT_EXTENSION}")
+                    })
+                }
+            })
         })
-
-        def msg = new MimeMessage(sesh)
-        msg.setFrom(new InternetAddress(source))
-        msg.addRecipient(Message.RecipientType.TO, new InternetAddress(recipient))
-        msg.setSubject(title)
-
-        def multipart = new MimeMultipart()
-
-        def msgBodyPart = new MimeBodyPart()
-
-        if (body.size() > MAX_BODY_LENGTH) {
-            msgBodyPart.setText(title)
-        } else {
-            msgBodyPart.setContent(body, HTML_CONTENT_TYPE)
-        }
-
-        multipart.addBodyPart(msgBodyPart)
-
-        if (body.size() > MAX_BODY_LENGTH) {
-            def attachPart = new MimeBodyPart()
-            def dataSource = new ByteArrayDataSource(body, JSON_CONTENT_TYPE)
-            attachPart.setDataHandler(new DataHandler(dataSource))
-            attachPart.setFileName("${title.toLowerCase().replace(' ', '_')}_${now().toString()}.${ATTACHMENT_EXTENSION}")
-            multipart.addBodyPart(attachPart)
-        }
-
-        msg.setContent(multipart)
-        Transport.send(msg)
     }
 }
