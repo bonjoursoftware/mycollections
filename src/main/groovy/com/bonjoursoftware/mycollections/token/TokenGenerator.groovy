@@ -35,7 +35,7 @@ import static org.springframework.security.crypto.bcrypt.BCrypt.hashpw
 @Singleton
 class TokenGenerator implements TokenService {
 
-    private static final int KEY_LENGTH = 64
+    private static final int KEY_LENGTH = 54
     private static final int SALT_LOG_ROUNDS = 10
 
     private Base64StringKeyGenerator generator = new Base64StringKeyGenerator(KEY_LENGTH)
