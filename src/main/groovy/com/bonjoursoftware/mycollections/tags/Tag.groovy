@@ -24,7 +24,9 @@
 package com.bonjoursoftware.mycollections.tags
 
 import groovy.transform.EqualsAndHashCode
+import io.micronaut.serde.annotation.Serdeable
 
+@Serdeable
 @EqualsAndHashCode
 class Tag {
     String name

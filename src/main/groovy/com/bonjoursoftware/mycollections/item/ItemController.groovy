@@ -25,6 +25,7 @@ package com.bonjoursoftware.mycollections.item
 
 import com.bonjoursoftware.mycollections.collector.CollectorRoles
 import groovy.transform.CompileStatic
+import io.micronaut.http.annotation.Body
 import io.micronaut.http.annotation.Controller
 import io.micronaut.http.annotation.Delete
 import io.micronaut.http.annotation.Get
@@ -67,14 +68,14 @@ class ItemController {
 
     @Post
     @RolesAllowed(CollectorRoles.WRITE)
-    void upsert(Item item, Authentication authentication) {
+    void upsert(@Body Item item, Authentication authentication) {
         item.tap { tags = tags?.collect { it.trim() } }
         itemRepository.upsert(item, getCollector(authentication))
     }
 
     @Delete
     @RolesAllowed(CollectorRoles.WRITE)
-    void delete(Item item, Authentication authentication) {
+    void delete(@Body Item item, Authentication authentication) {
         itemRepository.delete(item, getCollector(authentication))
     }
 }

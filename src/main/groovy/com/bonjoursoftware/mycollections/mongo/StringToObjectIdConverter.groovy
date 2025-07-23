@@ -23,12 +23,16 @@
  */
 package com.bonjoursoftware.mycollections.mongo
 
-import com.fasterxml.jackson.databind.util.StdConverter
+import io.micronaut.core.type.Argument
+import io.micronaut.serde.Decoder
+import io.micronaut.serde.Deserializer
+import jakarta.inject.Singleton
 import org.bson.types.ObjectId
 
-class StringToObjectIdConverter extends StdConverter<String, ObjectId> {
+@Singleton
+class StringToObjectIdConverter implements Deserializer<ObjectId> {
     @Override
-    ObjectId convert(String source) {
-        source ? new ObjectId(source) : null
+    ObjectId deserialize(Decoder decoder, DecoderContext context, Argument<? super ObjectId> type) throws IOException {
+        new ObjectId(decoder.decodeString())
     }
 }

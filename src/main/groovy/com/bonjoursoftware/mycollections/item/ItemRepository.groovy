@@ -31,6 +31,7 @@ import groovy.transform.CompileStatic
 import org.bson.conversions.Bson
 
 import jakarta.inject.Singleton
+import org.bson.types.ObjectId
 
 import static com.mongodb.client.model.Filters.eq
 import static com.mongodb.client.model.Filters.regex
@@ -74,7 +75,7 @@ class ItemRepository implements MongoRepository {
     }
 
     private Bson byId(String id) {
-        eq(ID_FIELD, oidConverter.convert(id))
+        eq(ID_FIELD, new ObjectId(id))
     }
 
     private Bson byId(Item item) {

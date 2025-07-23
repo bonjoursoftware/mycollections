@@ -23,17 +23,13 @@
  */
 package com.bonjoursoftware.mycollections.item
 
-import com.bonjoursoftware.mycollections.mongo.ObjectIdToStringConverter
-import com.bonjoursoftware.mycollections.mongo.StringToObjectIdConverter
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize
-import com.fasterxml.jackson.databind.annotation.JsonSerialize
 import groovy.transform.EqualsAndHashCode
+import io.micronaut.serde.annotation.Serdeable
 import org.bson.types.ObjectId
 
+@Serdeable
 @EqualsAndHashCode
 class Item {
-    @JsonSerialize(converter = ObjectIdToStringConverter)
-    @JsonDeserialize(converter = StringToObjectIdConverter)
     ObjectId id
     String name
     String notes
