@@ -26,7 +26,9 @@ package com.bonjoursoftware.mycollections.export
 import com.bonjoursoftware.mycollections.collector.Collector
 import com.bonjoursoftware.mycollections.item.Item
 import groovy.transform.EqualsAndHashCode
+import io.micronaut.serde.annotation.Serdeable
 
+@Serdeable
 @EqualsAndHashCode
 class EnrichedCollector {
     Collector collector

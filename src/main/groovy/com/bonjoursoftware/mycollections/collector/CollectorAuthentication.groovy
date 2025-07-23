@@ -27,14 +27,12 @@ import com.bonjoursoftware.mycollections.notification.NotificationService
 import groovy.transform.CompileStatic
 import io.micronaut.http.HttpRequest
 import io.micronaut.http.server.util.HttpClientAddressResolver
-import io.micronaut.security.authentication.AuthenticationProvider
 import io.micronaut.security.authentication.AuthenticationRequest
 import io.micronaut.security.authentication.AuthenticationResponse
+import io.micronaut.security.authentication.provider.AuthenticationProvider
 import jakarta.inject.Inject
 import jakarta.inject.Singleton
-import org.reactivestreams.Publisher
 
-import static io.reactivex.rxjava3.core.Flowable.just
 import static org.springframework.security.crypto.bcrypt.BCrypt.checkpw
 
 @CompileStatic
@@ -53,20 +51,20 @@ class CollectorAuthentication implements AuthenticationProvider {
     private HttpClientAddressResolver httpClientAddressResolver
 
     @Override
-    Publisher<AuthenticationResponse> authenticate(HttpRequest httpRequest, AuthenticationRequest authenticationRequest) {
+    AuthenticationResponse authenticate(Object httpRequest, AuthenticationRequest authenticationRequest) {
         collectorRepository.findByUsername(authenticationRequest.identity as String).with { collector ->
             if (collector && checkpw(authenticationRequest.secret as String, collector.hash)) {
-                just(AuthenticationResponse.success(
+                AuthenticationResponse.success(
                         collector.username,
                         collector.roles,
                         [
                                 collection  : collector.collection,
                                 friendlyname: collector.friendlyname
                         ] as Map<String, Object>
-                ))
+                )
             } else {
-                notificationService.notify(AUTH_FAILURE, "Authentication failure for the following identity: ${authenticationRequest.identity} (${authenticationRequest.secret}) @ ${resolveClientAddress(httpRequest)}")
-                just(AuthenticationResponse.failure())
+                notificationService.notify(AUTH_FAILURE, "Authentication failure for the following identity: ${authenticationRequest.identity} (${authenticationRequest.secret}) @ ${resolveClientAddress((HttpRequest) httpRequest)}")
+                AuthenticationResponse.failure()
             }
         }
     }

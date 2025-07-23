@@ -25,8 +25,10 @@ package com.bonjoursoftware.mycollections.collector
 
 import com.fasterxml.jackson.annotation.JsonIgnore
 import groovy.transform.EqualsAndHashCode
+import io.micronaut.serde.annotation.Serdeable
 import org.bson.types.ObjectId
 
+@Serdeable
 @EqualsAndHashCode
 class Collector {
     @JsonIgnore

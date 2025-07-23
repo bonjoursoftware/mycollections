@@ -36,7 +36,7 @@ import io.micronaut.security.annotation.Secured
 import io.micronaut.security.authentication.Authentication
 import io.micronaut.security.rules.SecurityRule
 
-import javax.annotation.security.RolesAllowed
+import jakarta.annotation.security.RolesAllowed
 import jakarta.inject.Inject
 
 import static com.bonjoursoftware.mycollections.collector.CollectorAuthenticationExtractor.getCollector
