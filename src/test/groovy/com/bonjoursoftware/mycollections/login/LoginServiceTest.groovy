@@ -83,6 +83,7 @@ class LoginServiceTest extends Specification {
         loginService.share(A_DELEGATE, A_COLLECTOR)
 
         then:
+        1 * collectorRepository.findByUsername(A_DELEGATE) >> null
         1 * collectorRepository.upsert({ Collector delegate ->
             delegate.username == A_DELEGATE
                     && delegate.hash == A_TOKEN.hash
@@ -95,5 +96,14 @@ class LoginServiceTest extends Specification {
                 { String body -> body.contains("${A_HOST_DOMAIN}/#!/login/delegate%40other-domain.com/a+secret%2F") },
                 A_DELEGATE
         )
+    }
+
+    def 'Request share link does nothing if delegate is an existing collector'() {
+        when:
+        loginService.share(A_DELEGATE, A_COLLECTOR)
+
+        then:
+        1 * collectorRepository.findByUsername(A_DELEGATE) >> A_COLLECTOR
+        0 * _
     }
 }
