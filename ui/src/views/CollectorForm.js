@@ -37,7 +37,7 @@ module.exports = {
                         ])
                     ]),
                     m('p', {class: 'control'}, [
-                        m('button', {type: 'submit', class: 'button is-success', disabled: Collector.loginRequestRegistered}, 'Login')
+                        m('button', {type: 'submit', class: 'button is-success', disabled: Collector.loginRequestRegistered || !Collector.hasUsername()}, 'Login')
                     ])
                 ])
             ])

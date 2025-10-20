@@ -6,6 +6,10 @@ var Collector = {
     loginRequestRegistered: false,
     authenticated: false,
 
+    hasUsername: function () {
+        return Collector.current && Collector.current.username && Collector.current.username.trim().length > 0
+    },
+
     reset: function () {
         localStorage.clear()
         Collector.current = {}
