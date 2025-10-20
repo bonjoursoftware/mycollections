@@ -71,14 +71,16 @@ class LoginService {
     }
 
     void share(String delegate, Collector collector) {
-        tokenService.generate().with { token ->
-            collectorRepository.upsert(
-                    buildCollector(delegate, token.hash).tap {
-                        it.collection = collector.collection
-                        it.roles = [CollectorRoles.READ].toSet()
-                    }
-            )
-            notificationService.notify(LOGIN_LINK_TITLE, loginBody(delegate, token.secret), delegate)
+        if (!collectorRepository.findByUsername(delegate)) {
+            tokenService.generate().with { token ->
+                collectorRepository.upsert(
+                        buildCollector(delegate, token.hash).tap {
+                            it.collection = collector.collection
+                            it.roles = [CollectorRoles.READ].toSet()
+                        }
+                )
+                notificationService.notify(LOGIN_LINK_TITLE, loginBody(delegate, token.secret), delegate)
+            }
         }
     }
 
