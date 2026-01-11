@@ -50,7 +50,7 @@ module.exports = {
             m('aside', {class: 'menu'}, [
                 m('ul', {class: 'menu-list'}, ItemSearch.search.result.map(function (item) {
                     return m('li', [
-                        m('a', {href: '/#!/item/' + encodeURIComponent(item.id)}, `${item.name} (${item.tags})`)
+                        m('a', {href: '/#!/item/' + encodeURIComponent(item.id)}, `${item.name} (${item.tags.join(', ')})`)
                     ])
                 }))
             ])
