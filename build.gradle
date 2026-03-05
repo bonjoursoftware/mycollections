@@ -1,9 +1,9 @@
 // Use https://micronaut.io/launch to regenerate
 plugins {
     id("groovy")
-    id("io.micronaut.application") version "4.5.4"
-    id("com.gradleup.shadow") version "8.3.7"
-    id("io.micronaut.aot") version "4.5.4"
+    id("io.micronaut.application") version "4.6.2"
+    id("com.gradleup.shadow") version "8.3.9"
+    id("io.micronaut.aot") version "4.6.2"
 }
 
 version = "1.9.2"
