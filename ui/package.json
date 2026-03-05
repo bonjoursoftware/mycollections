@@ -1,6 +1,6 @@
 {
   "name": "mycollections",
-  "version": "1.9.2",
+  "version": "1.9.3",
   "description": "MyCollections | Bonjour Software Limited",
   "main": "index.js",
   "scripts": {
