@@ -8,5 +8,5 @@ popd || exit
 echo 'Building the application...'
 docker build --no-cache -t bonjoursoftware/mycollections:local .
 CONTAINER_ID=$(docker create docker.io/bonjoursoftware/mycollections:local)
-docker cp "$CONTAINER_ID":mycollections.jar ./mycollections-1.9.3-all.jar
+docker cp "$CONTAINER_ID":mycollections.jar ./mycollections-1.9.4-all.jar
 docker container rm "$CONTAINER_ID"

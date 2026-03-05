@@ -1,6 +1,6 @@
 {
   "name": "mycollections",
-  "version": "1.9.3",
+  "version": "1.9.4",
   "description": "MyCollections | Bonjour Software Limited",
   "main": "index.js",
   "scripts": {
@@ -11,10 +11,10 @@
   "author": "Bonjour Software Limited (https://bonjour.software)",
   "license": "SEE LICENSE IN ../LICENSE",
   "dependencies": {
-    "mithril": "^2.3.7"
+    "mithril": "^2.3.8"
   },
   "devDependencies": {
-    "webpack": "^5.102.1",
+    "webpack": "^5.105.4",
     "webpack-cli": "^6.0.1"
   }
 }
