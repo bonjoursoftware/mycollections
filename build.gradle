@@ -18,17 +18,16 @@ configurations {
 }
 
 dependencies {
+    implementation("io.micronaut:micronaut-http-client")
     implementation("io.micronaut:micronaut-jackson-databind")
     implementation("io.micronaut.groovy:micronaut-runtime-groovy")
     implementation("io.micronaut.security:micronaut-security")
     implementation("io.micronaut.serde:micronaut-serde-jackson")
-    compileOnly("io.micronaut:micronaut-http-client")
     compileOnly("io.micronaut:micronaut-http-validation")
     compileOnly("io.micronaut.security:micronaut-security-annotations")
     compileOnly("io.micronaut.serde:micronaut-serde-processor")
     runtimeOnly("ch.qos.logback:logback-classic")
     runtimeOnly("org.yaml:snakeyaml")
-    testImplementation("io.micronaut:micronaut-http-client")
 
     implementation("org.mongodb:mongodb-driver-sync:5.6.1")
     implementation("jakarta.mail:jakarta.mail-api:2.1.5")
