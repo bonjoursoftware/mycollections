@@ -36,5 +36,7 @@ notification:
   target: '${NOTIFICATION_TARGET}'
 host:
   domain: '${HOST_DOMAIN}'
+healthcheck:
+  url: '${MYCOLLECTIONS_HEALTHCHECK_URL}'
 username:
   allowed-suffixes: '${USERNAME_ALLOWED_SUFFIXES}'

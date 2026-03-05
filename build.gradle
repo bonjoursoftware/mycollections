@@ -1,12 +1,12 @@
 // Use https://micronaut.io/launch to regenerate
 plugins {
     id("groovy")
-    id("io.micronaut.application") version "4.5.4"
-    id("com.gradleup.shadow") version "8.3.7"
-    id("io.micronaut.aot") version "4.5.4"
+    id("io.micronaut.application") version "4.6.2"
+    id("com.gradleup.shadow") version "8.3.9"
+    id("io.micronaut.aot") version "4.6.2"
 }
 
-version = "1.9.2"
+version = "1.9.3"
 group = "com.bonjoursoftware"
 
 repositories {
@@ -18,23 +18,22 @@ configurations {
 }
 
 dependencies {
+    implementation("io.micronaut:micronaut-http-client")
     implementation("io.micronaut:micronaut-jackson-databind")
     implementation("io.micronaut.groovy:micronaut-runtime-groovy")
     implementation("io.micronaut.security:micronaut-security")
     implementation("io.micronaut.serde:micronaut-serde-jackson")
-    compileOnly("io.micronaut:micronaut-http-client")
     compileOnly("io.micronaut:micronaut-http-validation")
     compileOnly("io.micronaut.security:micronaut-security-annotations")
     compileOnly("io.micronaut.serde:micronaut-serde-processor")
     runtimeOnly("ch.qos.logback:logback-classic")
     runtimeOnly("org.yaml:snakeyaml")
-    testImplementation("io.micronaut:micronaut-http-client")
 
-    implementation("org.mongodb:mongodb-driver-sync:5.6.1")
+    implementation("org.mongodb:mongodb-driver-sync:5.6.4")
     implementation("jakarta.mail:jakarta.mail-api:2.1.5")
     implementation("org.eclipse.angus:angus-mail:2.0.5")
-    implementation("org.springframework.security:spring-security-crypto:6.5.5")
-    testImplementation("net.bytebuddy:byte-buddy:1.17.8")
+    implementation("org.springframework.security:spring-security-crypto:7.0.3")
+    testImplementation("net.bytebuddy:byte-buddy:1.18.7")
 }
 
 application {

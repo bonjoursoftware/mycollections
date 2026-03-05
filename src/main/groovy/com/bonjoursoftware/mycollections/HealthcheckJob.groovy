@@ -19,18 +19,28 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see
- * https://github.com/bonjoursoftware/mycollections/blob/master/LICENSE
- */
-package com.bonjoursoftware.mycollections.export
+ * https://github.com/bonjoursoftware/mycollections/blob/master/LICENSE*/
+package com.bonjoursoftware.mycollections
 
-import com.bonjoursoftware.mycollections.collector.Collector
-import com.bonjoursoftware.mycollections.item.Item
-import groovy.transform.EqualsAndHashCode
-import io.micronaut.serde.annotation.Serdeable
+import groovy.transform.CompileStatic
+import io.micronaut.context.annotation.Property
+import io.micronaut.http.client.HttpClient
+import io.micronaut.scheduling.annotation.Scheduled
+import jakarta.inject.Inject
+import jakarta.inject.Singleton
 
-@Serdeable
-@EqualsAndHashCode
-class EnrichedCollector {
-    Collector collector
-    List<Item> items
+@CompileStatic
+@Singleton
+class HealthcheckJob {
+
+    @Inject
+    private HttpClient httpClient
+
+    @Property(name = 'healthcheck.url')
+    private String healthcheckUrl
+
+    @Scheduled(cron = '0 */5 * * * *')
+    void pingHealthcheck() {
+        httpClient.retrieve(healthcheckUrl)
+    }
 }
