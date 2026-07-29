@@ -13,3 +13,12 @@ out/
 .classpath
 mycollections*.jar
 run.sh
+
+.vagrant-ssh
+.vagrant/
+coverage.html
+coverage.out
+app
+app.db
+mycollections_linux_amd64
+mycollections_linux_arm64

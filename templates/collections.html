@@ -1,0 +1,33 @@
+{{ template "header.html" . }}
+    <h2>My Collections</h2>
+
+    {{ if .Error }}
+        <p style="color: red;">{{ .Error }}</p>
+    {{ end }}
+
+    <h3>Create New Collection</h3>
+    <form action="/collections" method="POST">
+        <div>
+            <label for="name">Collection Name:</label>
+            <input type="text" id="name" name="name" value="{{ .Name }}" required>
+        </div>
+        <div>
+            <button type="submit">Create</button>
+        </div>
+    </form>
+
+    <hr>
+
+    <h3>Existing Collections</h3>
+    {{ if .Collections }}
+        <ul>
+            {{ range .Collections }}
+                <li><a href="/collections/{{ .ID }}">{{ .Name }}</a></li>
+            {{ end }}
+        </ul>
+    {{ else }}
+        <p>You don't have any collections yet.</p>
+    {{ end }}
+    
+    <p><a href="/">Back to Dashboard</a></p>
+{{ template "footer.html" . }}

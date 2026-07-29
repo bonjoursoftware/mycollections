@@ -1,0 +1,10 @@
+{{ template "header.html" . }}
+    <h2>Dashboard</h2>
+    <p>Welcome back to your personalized homepage, <strong>{{ .User.Name }}</strong>!</p>
+    <p>Your registered email is: <strong>{{ .User.Email }}</strong></p>
+    
+    <h3>Menu</h3>
+    <ul>
+        <li><a href="/collections">My Collections</a></li>
+    </ul>
+{{ template "footer.html" . }}
